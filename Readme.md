@@ -1,7 +1,7 @@
 # Проект «Киноман»
 
 * Студент: [Дмитрий Красюков](https://up.htmlacademy.ru/ecmascript/15/user/548353).
-* Наставник: [Артем Макаров](https://htmlacademy.ru/profile/id429879)
+* Наставник: [Артем Макаров](https://htmlacademy.ru/profile/id429879).
 
 ---
 
