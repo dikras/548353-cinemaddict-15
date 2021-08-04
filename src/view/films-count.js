@@ -1,1 +1,3 @@
-export const createFilmsCountTemplate = () => ('<p>130 291 movies inside</p>');
+import { MOVIE_CARDS_COUNT } from '../const.js';
+
+export const createFilmsCountTemplate = () => (`<p>${MOVIE_CARDS_COUNT} movies inside</p>`);
