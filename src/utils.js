@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { ESC_ALL_BROWSERS, ESC_IE } from './const.js';
 
 export const RenderPosition = {
   AFTERBEGIN: 'afterbegin',
@@ -49,3 +50,5 @@ export const getRandomDescription = (items) => {
 export const formatReleaseDate = (releaseDate) => dayjs(releaseDate).format('DD MMMM YYYY');
 
 export const formatRuntime = (runtime) => `${Math.floor(runtime / 60)}h ${runtime % 60}m`;
+
+export const isEscEvent = (evt) => evt.key === ESC_ALL_BROWSERS || evt.key === ESC_IE;

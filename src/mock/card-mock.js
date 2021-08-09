@@ -1,7 +1,7 @@
-import { MOVIE_TITLES, DESCRIPTIONS, POSTER_URLS, ReleaseYears,
+import { MOVIE_TITLES, DESCRIPTIONS, POSTER_URLS, ReleaseYear,
   MOVIE_GENRES, MovieRating, MAX_LENGTH_DESCRIPTION, WRITERS, ACTORS } from '../const.js';
 import { getRandomInteger, getRandomFloat, getRandomItem,
-  getRandomDescription, formatRuntime } from '../utils.js';
+  getRandomDescription } from '../utils.js';
 import { generateComment } from './comment-mock.js';
 
 const createDescription = () => {
@@ -20,8 +20,8 @@ const generateMovieCard = () => ({
     title: getRandomItem(MOVIE_TITLES),
     alternativeTitle: 'Laziness Who Sold Themselves',
     poster: getRandomItem(POSTER_URLS),
-    year: getRandomInteger(ReleaseYears.FROM, ReleaseYears.TO),
-    runtime: formatRuntime(77),
+    year: getRandomInteger(ReleaseYear.FROM, ReleaseYear.TO),
+    runtime: 77,
     genre: getRandomItem(MOVIE_GENRES),
     totalRating: getRandomFloat(MovieRating.MIN, MovieRating.MAX),
     ageRating: 0,
