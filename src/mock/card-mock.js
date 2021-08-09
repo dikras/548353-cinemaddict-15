@@ -1,7 +1,8 @@
-import { MOVIE_TITLES, DESCRIPTIONS, POSTER_URLS, releaseYears,
-  MOVIE_GENRES, movieRating, MAX_LENGTH_DESCRIPTION, WRITERS, ACTORS } from '../const.js';
+import { MOVIE_TITLES, DESCRIPTIONS, POSTER_URLS, ReleaseYears,
+  MOVIE_GENRES, MovieRating, MAX_LENGTH_DESCRIPTION, WRITERS, ACTORS } from '../const.js';
 import { getRandomInteger, getRandomFloat, getRandomItem,
   getRandomDescription, formatRuntime } from '../utils.js';
+import { generateComment } from './comment-mock.js';
 
 const createDescription = () => {
   const description = getRandomDescription(DESCRIPTIONS).join('');
@@ -14,15 +15,15 @@ const createDescription = () => {
 
 const generateMovieCard = () => ({
   id: '0',
-  comments: [Comment.id, Comment.id],
+  comments: generateComment().comment,
   movieInfo: {
     title: getRandomItem(MOVIE_TITLES),
     alternativeTitle: 'Laziness Who Sold Themselves',
     poster: getRandomItem(POSTER_URLS),
-    year: getRandomInteger(releaseYears.FROM, releaseYears.TO),
+    year: getRandomInteger(ReleaseYears.FROM, ReleaseYears.TO),
     runtime: formatRuntime(77),
     genre: getRandomItem(MOVIE_GENRES),
-    totalRating: getRandomFloat(movieRating.MIN, movieRating.MAX),
+    totalRating: getRandomFloat(MovieRating.MIN, MovieRating.MAX),
     ageRating: 0,
     director: 'Tom Ford',
     writers: WRITERS.join(', '),

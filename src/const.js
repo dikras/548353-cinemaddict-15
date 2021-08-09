@@ -1,4 +1,4 @@
-const MOVIE_TITLES = [
+export const MOVIE_TITLES = [
   'The Dance Of Life',
   'SagebrushTrail',
   'The Man with the Golden Arm',
@@ -8,7 +8,7 @@ const MOVIE_TITLES = [
   'The Great Flamarion',
 ];
 
-const DESCRIPTIONS = [
+export const DESCRIPTIONS = [
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget.',
   'Sed sed nisi sed augue convallis suscipit in sed felis.',
   'Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.',
@@ -16,7 +16,7 @@ const DESCRIPTIONS = [
   'Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.',
 ];
 
-const POSTER_URLS = [
+export const POSTER_URLS = [
   './images/posters/made-for-each-other.png',
   './images/posters/popeye-meets-sinbad.png',
   './images/posters/sagebrush-trail.jpg',
@@ -26,31 +26,29 @@ const POSTER_URLS = [
   './images/posters/the-man-with-the-golden-arm.jpg',
 ];
 
-const MOVIE_GENRES = ['Musical', 'Western', 'Drama', 'Comedy', 'Cartoon', 'Mystery'];
+export const MOVIE_GENRES = ['Musical', 'Western', 'Drama', 'Comedy', 'Cartoon', 'Mystery'];
 
-const WRITERS = ['Takeshi Kitano', 'Matt Damon'];
+export const WRITERS = ['Takeshi Kitano', 'Matt Damon'];
 
-const ACTORS = ['Bruce Willis', 'Willem Defoe', 'Robert Pattison'];
+export const ACTORS = ['Bruce Willis', 'Willem Defoe', 'Robert Pattison'];
 
-const movieRating = {
+export const MovieRating = {
   MIN: 2,
   MAX: 10,
 };
 
-const releaseYears = {
+export const ReleaseYears = {
   FROM: 1929,
   TO: 1964,
 };
 
-const CARD_MAINBLOCK_COUNT = 5;
-const CARD_ADDBLOCK_COUNT = 2;
-const MOVIE_CARDS_COUNT = 15;
-const CARD_COUNT_PER_STEP = 5;
+export const CardCount = {
+  MAIN_BLOCK: 5,
+  ADD_BLOCK: 2,
+  TOTAL: 15,
+  PER_STEP: 5,
+};
 
-const MAX_LENGTH_DESCRIPTION = 140;
+export const MAX_LENGTH_DESCRIPTION = 140;
 
-const COMMENT_EMOTIONS = ['smile', 'sleeping', 'puke', 'angry'];
-
-export { MOVIE_TITLES, DESCRIPTIONS, movieRating, POSTER_URLS, releaseYears,
-  MOVIE_GENRES, CARD_MAINBLOCK_COUNT, CARD_ADDBLOCK_COUNT, WRITERS, ACTORS,
-  MOVIE_CARDS_COUNT, CARD_COUNT_PER_STEP, MAX_LENGTH_DESCRIPTION, COMMENT_EMOTIONS };
+export const COMMENT_EMOTIONS = ['smile', 'sleeping', 'puke', 'angry'];

@@ -1,4 +1,4 @@
-import { formatReleaseDate } from '../utils.js';
+import { formatReleaseDate, createElement } from '../utils.js';
 
 export const createPopupTemplate = (card) => {
   const { movieInfo } = card;
@@ -128,3 +128,25 @@ export const createPopupTemplate = (card) => {
   </section>`;
 };
 
+export default class Popup {
+  constructor(card) {
+    this._card = card;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createPopupTemplate(this._card);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

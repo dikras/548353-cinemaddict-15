@@ -1,4 +1,4 @@
-import { formatRuntime } from '../utils.js';
+import { formatRuntime, createElement } from '../utils.js';
 
 const createFilmCardTemplate = (card) => {
   const { movieInfo } = card;
@@ -32,4 +32,25 @@ const createFilmCardTemplate = (card) => {
   </article>`;
 };
 
-export { createFilmCardTemplate };
+export default class Card {
+  constructor(card) {
+    this._card = card;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmCardTemplate(this._card);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
