@@ -1,5 +1,5 @@
 import { COMMENT_EMOTIONS } from '../const.js';
-import { getRandomItem } from '../utils.js';
+import { getRandomItem } from '../utils/common.js';
 
 export const generateComment = () => ({
   id: '42',

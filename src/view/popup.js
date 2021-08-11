@@ -1,7 +1,10 @@
-import { formatReleaseDate, createElement } from '../utils.js';
+import { formatReleaseDate, formatRuntime } from '../utils/common.js';
+import AbstractView from './abstract.js';
 
 export const createPopupTemplate = (card) => {
   const { movieInfo } = card;
+
+  const runtimeMovie = formatRuntime(movieInfo.runtime);
 
   const date = movieInfo.release.date !== null
     ? formatReleaseDate(movieInfo.release.date)
@@ -59,7 +62,7 @@ export const createPopupTemplate = (card) => {
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Runtime</td>
-                <td class="film-details__cell">${movieInfo.runtime}</td>
+                <td class="film-details__cell">${runtimeMovie}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Country</td>
@@ -128,25 +131,31 @@ export const createPopupTemplate = (card) => {
   </section>`;
 };
 
-export default class Popup {
+export default class Popup extends AbstractView {
   constructor(card) {
+    super();
     this._card = card;
-    this._element = null;
+    this._clickHandler = this._clickHandler.bind(this);
   }
 
   getTemplate() {
     return createPopupTemplate(this._card);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
+  _clickHandler(evt) {
+    evt.preventDefault();
+    if (evt.target.className === 'film-details__close-btn') {
+      this._callback.click();
     }
-
-    return this._element;
   }
 
-  removeElement() {
-    this._element = null;
+  setClickHandler(callback) {
+    this._callback.click = callback;
+    this.getElement().addEventListener('click', this._clickHandler);
+  }
+
+  removeClickHandler(callback) {
+    this._callback.click = callback;
+    this.getElement().removeEventListener('click', this._clickHandler);
   }
 }

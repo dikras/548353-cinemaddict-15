@@ -1,7 +1,7 @@
 import { MOVIE_TITLES, DESCRIPTIONS, POSTER_URLS, ReleaseYear,
   MOVIE_GENRES, MovieRating, MAX_LENGTH_DESCRIPTION, WRITERS, ACTORS } from '../const.js';
 import { getRandomInteger, getRandomFloat, getRandomItem,
-  getRandomDescription } from '../utils.js';
+  getRandomDescription } from '../utils/common.js';
 import { generateComment } from './comment-mock.js';
 
 const createDescription = () => {
