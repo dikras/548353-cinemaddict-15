@@ -1,28 +1,5 @@
 import dayjs from 'dayjs';
-import { ESC_ALL_BROWSERS, ESC_IE } from './const.js';
-
-export const RenderPosition = {
-  AFTERBEGIN: 'afterbegin',
-  BEFOREEND: 'beforeend',
-};
-
-export const render = (container, element, place) => {
-  switch (place) {
-    case RenderPosition.AFTERBEGIN:
-      container.prepend(element);
-      break;
-    case RenderPosition.BEFOREEND:
-      container.append(element);
-      break;
-  }
-};
-
-export const createElement = (template) => {
-  const newElement = document.createElement('div');
-  newElement.innerHTML = template;
-
-  return newElement.firstChild;
-};
+import { ESC_ALL_BROWSERS, ESC_IE } from '../const.js';
 
 export const getRandomInteger = (firstNumber = 0, secondNumber = 1) => {
   const lower = Math.ceil(Math.min(firstNumber, secondNumber));
