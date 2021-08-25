@@ -55,3 +55,8 @@ export const COMMENT_EMOTIONS = ['smile', 'sleeping', 'puke', 'angry'];
 
 export const ESC_IE = 'Esc';
 export const ESC_ALL_BROWSERS = 'Escape';
+
+export const Mode = {
+  DEFAULT: 'DEFAULT',
+  OPENING: 'OPENING',
+};
