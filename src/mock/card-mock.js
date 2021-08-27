@@ -1,3 +1,4 @@
+import {nanoid} from 'nanoid';
 import { MOVIE_TITLES, DESCRIPTIONS, POSTER_URLS, ReleaseYear,
   MOVIE_GENRES, MovieRating, MAX_LENGTH_DESCRIPTION, WRITERS, ACTORS } from '../const.js';
 import { getRandomInteger, getRandomFloat, getRandomItem,
@@ -14,7 +15,7 @@ const createDescription = () => {
 };
 
 const generateMovieCard = () => ({
-  id: '0',
+  id: nanoid(),
   comments: generateComment().comment,
   movieInfo: {
     title: getRandomItem(MOVIE_TITLES),
@@ -35,10 +36,10 @@ const generateMovieCard = () => ({
     description: createDescription(),
     commentsCount: 2,
     userDetails: {
-      watchlist: Boolean(getRandomInteger(0, 1)),
-      alreadyWatched: Boolean(getRandomInteger(0, 1)),
+      watchlist: false,
+      alreadyWatched: false,
       watchingDate: '2019-04-12T16:12:32.554Z',
-      favorite: Boolean(getRandomInteger(0, 1)),
+      favorite: false,
     },
   },
 });

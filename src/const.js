@@ -49,6 +49,13 @@ export const CardCount = {
   PER_STEP: 5,
 };
 
+export const CardElementToSlice = {
+  FIRST_IN_TOPRATED_BLOCK: 6,
+  LAST_IN_TOPRATED_BLOCK: 8,
+  FIRST_IN_MOSTCOMMENTED_BLOCK: 9,
+  LAST_IN_MOSTCOMMENTED_BLOCK: 11,
+};
+
 export const MAX_LENGTH_DESCRIPTION = 140;
 
 export const COMMENT_EMOTIONS = ['smile', 'sleeping', 'puke', 'angry'];
