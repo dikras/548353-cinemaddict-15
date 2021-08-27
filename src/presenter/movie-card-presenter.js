@@ -80,7 +80,6 @@ export default class MovieCard {
   _onFilmCardElementClick() {
     this._popupComponent = new PopupView(this._card);
     render(bodyElement, this._popupComponent, RenderPosition.BEFOREEND);
-    
     this._popupComponent.setClickHandler(this._onClosePopupElementClick);
     document.addEventListener('keydown', this._onEscKeydown);
     this._changeMode();
