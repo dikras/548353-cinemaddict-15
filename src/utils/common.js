@@ -24,7 +24,9 @@ export const getRandomDescription = (items) => {
   return randomDescription;
 };
 
-export const formatReleaseDate = (releaseDate) => dayjs(releaseDate).format('DD MMMM YYYY');
+export const formatReleaseDate = (releaseDate) => dayjs(releaseDate).format('DD MMMM YYYY'); // delete?
+
+export const generateReleaseDate = () => dayjs().add(getRandomInteger(-100, 0), 'year').format('DD MMMM YYYY');
 
 export const formatRuntime = (runtime) => `${Math.floor(runtime / 60)}h ${runtime % 60}m`;
 

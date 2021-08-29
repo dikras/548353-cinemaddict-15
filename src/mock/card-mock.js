@@ -1,7 +1,7 @@
 import {nanoid} from 'nanoid';
-import { MOVIE_TITLES, DESCRIPTIONS, POSTER_URLS, ReleaseYear,
+import { MOVIE_TITLES, DESCRIPTIONS, POSTER_URLS,
   MOVIE_GENRES, MovieRating, MAX_LENGTH_DESCRIPTION, WRITERS, ACTORS } from '../const.js';
-import { getRandomInteger, getRandomFloat, getRandomItem,
+import { generateReleaseDate, getRandomFloat, getRandomItem,
   getRandomDescription } from '../utils/common.js';
 import { generateComment } from './comment-mock.js';
 
@@ -21,7 +21,6 @@ const generateMovieCard = () => ({
     title: getRandomItem(MOVIE_TITLES),
     alternativeTitle: 'Laziness Who Sold Themselves',
     poster: getRandomItem(POSTER_URLS),
-    year: getRandomInteger(ReleaseYear.FROM, ReleaseYear.TO),
     runtime: 77,
     genre: getRandomItem(MOVIE_GENRES),
     totalRating: getRandomFloat(MovieRating.MIN, MovieRating.MAX),
@@ -30,17 +29,17 @@ const generateMovieCard = () => ({
     writers: WRITERS.join(', '),
     actors: ACTORS.join(', '),
     release: {
-      date: '2019-05-11T00:00:00.000Z',
+      date: generateReleaseDate(),
       releaseCountry: 'USA',
     },
     description: createDescription(),
     commentsCount: 2,
-    userDetails: {
-      watchlist: false,
-      alreadyWatched: false,
-      watchingDate: '2019-04-12T16:12:32.554Z',
-      favorite: false,
-    },
+  },
+  userDetails: {
+    watchlist: false,
+    alreadyWatched: false,
+    watchingDate: '2019-04-12T16:12:32.554Z',
+    favorite: false,
   },
 });
 

@@ -1,7 +1,7 @@
 const taskToFilterMap = {
-  watchlist: (movies) => movies.filter((movie) => movie.movieInfo.userDetails.watchlist).length,
-  history: (movies) => movies.filter((movie) => movie.movieInfo.userDetails.alreadyWatched).length,
-  favorites: (movies) => movies.filter((movie) => movie.movieInfo.userDetails.favorite).length,
+  watchlist: (movies) => movies.filter((movie) => movie.userDetails.watchlist).length,
+  history: (movies) => movies.filter((movie) => movie.userDetails.alreadyWatched).length,
+  favorites: (movies) => movies.filter((movie) => movie.userDetails.favorite).length,
 };
 
 const generateFilter = (movies) => Object.entries(taskToFilterMap).map(
