@@ -92,7 +92,7 @@ export default class MovieCard {
       Object.assign(
         {},
         this._card,
-        this._card.movieInfo.userDetails.watchlist = !this._card.movieInfo.userDetails.watchlist,
+        this._card.userDetails.watchlist = !this._card.userDetails.watchlist,
       ),
     );
   }
@@ -102,7 +102,7 @@ export default class MovieCard {
       Object.assign(
         {},
         this._card,
-        this._card.movieInfo.userDetails.alreadyWatched = !this._card.movieInfo.userDetails.alreadyWatched,
+        this._card.userDetails.alreadyWatched = !this._card.userDetails.alreadyWatched,
       ),
     );
   }
@@ -112,7 +112,7 @@ export default class MovieCard {
       Object.assign(
         {},
         this._card,
-        this._card.movieInfo.userDetails.favorite = !this._card.movieInfo.userDetails.favorite,
+        this._card.userDetails.favorite = !this._card.userDetails.favorite,
       ),
     );
   }

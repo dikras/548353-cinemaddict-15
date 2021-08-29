@@ -37,11 +37,6 @@ export const MovieRating = {
   MAX: 10,
 };
 
-export const ReleaseYear = {
-  FROM: 1929,
-  TO: 1964,
-};
-
 export const CardCount = {
   MAIN_BLOCK: 5,
   ADD_BLOCK: 2,
@@ -62,3 +57,9 @@ export const COMMENT_EMOTIONS = ['smile', 'sleeping', 'puke', 'angry'];
 
 export const ESC_IE = 'Esc';
 export const ESC_ALL_BROWSERS = 'Escape';
+
+export const SortType = {
+  DEFAULT: 'default',
+  BY_DATE: 'by-date',
+  BY_RATING: 'by-rating',
+};

@@ -2,23 +2,25 @@ import { formatRuntime } from '../utils/common.js';
 import AbstractView from './abstract.js';
 
 const createFilmCardTemplate = (card) => {
-  const { movieInfo } = card;
+  const { movieInfo, userDetails } = card;
 
   const runtimeMovie = formatRuntime(movieInfo.runtime);
 
   const setCardControlsItemActive = (value) => value ? 'film-card__controls-item--active' : '';
 
-  const watchlistClassActive = setCardControlsItemActive(movieInfo.userDetails.watchlist);
+  const watchlistClassActive = setCardControlsItemActive(userDetails.watchlist);
 
-  const alreadyWatchedClassActive = setCardControlsItemActive(movieInfo.userDetails.alreadyWatched);
+  const alreadyWatchedClassActive = setCardControlsItemActive(userDetails.alreadyWatched);
 
-  const favoriteClassActive = setCardControlsItemActive(movieInfo.userDetails.favorite);
+  const favoriteClassActive = setCardControlsItemActive(userDetails.favorite);
+
+  const releaseYear = new Date(movieInfo.release.date).getFullYear();
 
   return `<article class="film-card">
     <h3 class="film-card__title">${movieInfo.title}</h3>
     <p class="film-card__rating">${movieInfo.totalRating}</p>
     <p class="film-card__info">
-      <span class="film-card__year">${movieInfo.year}</span>
+      <span class="film-card__year">${releaseYear}</span>
       <span class="film-card__duration">${runtimeMovie}</span>
       <span class="film-card__genre">${movieInfo.genre}</span>
     </p>

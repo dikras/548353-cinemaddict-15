@@ -1,22 +1,18 @@
-import { formatReleaseDate, formatRuntime } from '../utils/common.js';
+import { formatRuntime } from '../utils/common.js';
 import AbstractView from './abstract.js';
 
 export const createPopupTemplate = (card) => {
-  const { movieInfo } = card;
+  const { movieInfo, userDetails } = card;
 
   const runtimeMovie = formatRuntime(movieInfo.runtime);
 
-  const date = movieInfo.release.date !== null
-    ? formatReleaseDate(movieInfo.release.date)
-    : '';
-
   const setPopupControlsItemActive = (value) => value ? 'film-details__control-button--active' : '';
 
-  const watchlistClassActive = setPopupControlsItemActive(movieInfo.userDetails.watchlist);
+  const watchlistClassActive = setPopupControlsItemActive(userDetails.watchlist);
 
-  const alreadyWatchedClassActive = setPopupControlsItemActive(movieInfo.userDetails.alreadyWatched);
+  const alreadyWatchedClassActive = setPopupControlsItemActive(userDetails.alreadyWatched);
 
-  const favoriteClassActive = setPopupControlsItemActive(movieInfo.userDetails.favorite);
+  const favoriteClassActive = setPopupControlsItemActive(userDetails.favorite);
 
   return `<section class="film-details">
     <form class="film-details__inner" action="" method="get">
@@ -58,7 +54,7 @@ export const createPopupTemplate = (card) => {
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Release Date</td>
-                <td class="film-details__cell">${date}</td>
+                <td class="film-details__cell">${movieInfo.release.date}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Runtime</td>
