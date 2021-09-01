@@ -2,7 +2,7 @@ import { formatRuntime } from '../utils/common.js';
 import AbstractView from './abstract.js';
 
 const createFilmCardTemplate = (card) => {
-  const { movieInfo, userDetails } = card;
+  const { movieInfo, userDetails, comments } = card;
 
   const runtimeMovie = formatRuntime(movieInfo.runtime);
 
@@ -26,7 +26,7 @@ const createFilmCardTemplate = (card) => {
     </p>
     <img src="${movieInfo.poster}" alt="" class="film-card__poster">
     <p class="film-card__description">${movieInfo.description}</p>
-    <a class="film-card__comments">${movieInfo.commentsCount} comments</a>
+    <a class="film-card__comments">${comments.length} comments</a>
     <div class="film-card__controls">
       <button class="film-card__controls-item film-card__controls-item--add-to-watchlist ${watchlistClassActive}" type="button">Add to watchlist</button>
       <button class="film-card__controls-item film-card__controls-item--mark-as-watched ${alreadyWatchedClassActive}" type="button">Mark as watched</button>

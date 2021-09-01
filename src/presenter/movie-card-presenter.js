@@ -74,17 +74,26 @@ export default class MovieCard {
 
   _onClosePopupElementClick() {
     this._closePopup();
-    this._popupComponent.removeClickHandler();
+    this._popupComponent.removePopupClickHandler();
   }
 
-  _onFilmCardElementClick() {
+  renderPopup() {
     this._popupComponent = new PopupView(this._card);
     render(bodyElement, this._popupComponent, RenderPosition.BEFOREEND);
-    this._popupComponent.setClickHandler(this._onClosePopupElementClick);
+
+    this._popupComponent.setPopupClickHandler(this._onClosePopupElementClick);
+    this._popupComponent.setPopupWatchlistClickHandler(this._handleWatchlistClick);
+    this._popupComponent.setPopupWatchedClickHandler(this._handleWatchedClick);
+    this._popupComponent.setPopupFavoriteClickHandler(this._handleFavoriteClick);
+
     document.addEventListener('keydown', this._onEscKeydown);
     this._changeMode();
     this._mode = Mode.OPENING;
     bodyElement.classList.add('hide-overflow');
+  }
+
+  _onFilmCardElementClick() {
+    this.renderPopup();
   }
 
   _handleWatchlistClick() {
