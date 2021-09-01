@@ -1,7 +1,7 @@
 import {nanoid} from 'nanoid';
 import { MOVIE_TITLES, DESCRIPTIONS, POSTER_URLS,
   MOVIE_GENRES, MovieRating, MAX_LENGTH_DESCRIPTION, WRITERS, ACTORS } from '../const.js';
-import { generateReleaseDate, getRandomFloat, getRandomItem,
+import { getRandomFloat, getRandomItem,
   getRandomDescription } from '../utils/common.js';
 import { generateComments } from './comment-mock.js';
 
@@ -29,7 +29,7 @@ const generateMovieCard = () => ({
     writers: WRITERS.join(', '),
     actors: ACTORS.join(', '),
     release: {
-      date: generateReleaseDate(),
+      date: '2019-05-11T00:00:00.000Z',
       releaseCountry: 'USA',
     },
     description: createDescription(),

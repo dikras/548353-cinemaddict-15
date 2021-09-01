@@ -1,10 +1,8 @@
-import { formatRuntime } from '../utils/common.js';
 import AbstractView from './abstract.js';
+import dayjs from 'dayjs';
 
 const createFilmCardTemplate = (card) => {
   const { movieInfo, userDetails, comments } = card;
-
-  const runtimeMovie = formatRuntime(movieInfo.runtime);
 
   const setCardControlsItemActive = (value) => value ? 'film-card__controls-item--active' : '';
 
@@ -14,14 +12,12 @@ const createFilmCardTemplate = (card) => {
 
   const favoriteClassActive = setCardControlsItemActive(userDetails.favorite);
 
-  const releaseYear = new Date(movieInfo.release.date).getFullYear();
-
   return `<article class="film-card">
     <h3 class="film-card__title">${movieInfo.title}</h3>
     <p class="film-card__rating">${movieInfo.totalRating}</p>
     <p class="film-card__info">
-      <span class="film-card__year">${releaseYear}</span>
-      <span class="film-card__duration">${runtimeMovie}</span>
+      <span class="film-card__year">${dayjs(movieInfo.release.date).format('YYYY')}</span>
+      <span class="film-card__duration">${dayjs(movieInfo.runtime).format('H mm')}</span>
       <span class="film-card__genre">${movieInfo.genre}</span>
     </p>
     <img src="${movieInfo.poster}" alt="" class="film-card__poster">

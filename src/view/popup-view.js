@@ -1,4 +1,3 @@
-import { formatRuntime } from '../utils/common.js';
 import dayjs from 'dayjs';
 import SmartView from './smart.js';
 
@@ -26,8 +25,6 @@ const createEmojiTemplate = (emojiType) => (
 
 const createPopupTemplate = (card) => {
   const { movieInfo, userDetails, comments, isComments, emojiType } = card;
-
-  const runtimeMovie = formatRuntime(movieInfo.runtime);
 
   const setPopupControlsItemActive = (value) => value ? 'film-details__control-button--active' : '';
 
@@ -77,11 +74,11 @@ const createPopupTemplate = (card) => {
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Release Date</td>
-                <td class="film-details__cell">${movieInfo.release.date}</td>
+                <td class="film-details__cell">${dayjs(movieInfo.release.date).format('DD MMMM YYYY')}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Runtime</td>
-                <td class="film-details__cell">${runtimeMovie}</td>
+                <td class="film-details__cell">${dayjs(movieInfo.runtime).format('H mm')}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Country</td>
@@ -145,11 +142,12 @@ export default class Popup extends SmartView {
     super();
     this._data = Popup.parseCardToData(card);
 
-    this._clickHandler = this._clickHandler.bind(this);
+    this._closePopupClickHandler = this._closePopupClickHandler.bind(this);
     this._watchlistClickHandler = this._watchlistClickHandler.bind(this);
     this._watchedClickHandler = this._watchedClickHandler.bind(this);
     this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
     this._emojiClickHandler = this._emojiClickHandler.bind(this);
+    this._commentInputHandler = this._commentInputHandler.bind(this);
     this._setInnerHandlers();
   }
 
@@ -159,27 +157,39 @@ export default class Popup extends SmartView {
 
   restoreHandlers() {
     this._setInnerHandlers();
+
+    this.setClosePopupClickHandler(this._callback.click);
+    this.setPopupWatchlistClickHandler(this._callback.watchlistClick);
+    this.setPopupWatchedClickHandler(this._callback.watchedClick);
+    this.setPopupFavoriteClickHandler(this._callback.favoriteClick);
     this.setFormSubmitHandler(this._callback.formSubmit);
   }
 
   _setInnerHandlers() {
     this.getElement().querySelectorAll('.film-details__emoji-item').forEach((emojiItem) =>
       emojiItem.addEventListener('click', this._emojiClickHandler));
+    this.getElement().querySelector('.film-details__comment-input').addEventListener('input', this._commentInputHandler);
   }
-
 
   _emojiClickHandler(evt) {
     evt.preventDefault();
     this.updateData({
       emojiType: evt.target.value,
     });
+    this.getElement().querySelector('.film-details__comment-input').placeholder = '';
   }
 
-  _clickHandler(evt) {
+  _commentInputHandler(evt) {
     evt.preventDefault();
-    if (evt.target.className === 'film-details__close-btn') {
-      this._callback.click();
-    }
+    this.updateData({
+      commentText: evt.target.value,
+    }, true);
+  }
+
+  _closePopupClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.click();
+
   }
 
   _watchlistClickHandler(evt) {
@@ -197,9 +207,9 @@ export default class Popup extends SmartView {
     this._callback.favoriteClick();
   }
 
-  setPopupClickHandler(callback) {
+  setClosePopupClickHandler(callback) {
     this._callback.click = callback;
-    this.getElement().addEventListener('click', this._clickHandler);
+    this.getElement().querySelector('.film-details__close-btn').addEventListener('click', this._closePopupClickHandler);
   }
 
   removePopupClickHandler(callback) {

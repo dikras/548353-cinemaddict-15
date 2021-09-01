@@ -81,7 +81,7 @@ export default class MovieCard {
     this._popupComponent = new PopupView(this._card);
     render(bodyElement, this._popupComponent, RenderPosition.BEFOREEND);
 
-    this._popupComponent.setPopupClickHandler(this._onClosePopupElementClick);
+    this._popupComponent.setClosePopupClickHandler(this._onClosePopupElementClick);
     this._popupComponent.setPopupWatchlistClickHandler(this._handleWatchlistClick);
     this._popupComponent.setPopupWatchedClickHandler(this._handleWatchedClick);
     this._popupComponent.setPopupFavoriteClickHandler(this._handleFavoriteClick);
