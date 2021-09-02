@@ -1,4 +1,6 @@
 import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
+dayjs.extend(duration);
 import SmartView from './smart.js';
 
 const createCommentsListTemplate = (comments, isComments) => (
@@ -78,7 +80,8 @@ const createPopupTemplate = (card) => {
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Runtime</td>
-                <td class="film-details__cell">${dayjs(movieInfo.runtime).format('H mm')}</td>
+                <td class="film-details__cell">${dayjs.duration(movieInfo.runtime, 'minutes').format('H')}h
+                ${dayjs.duration(movieInfo.runtime, 'minutes').format('mm')}m</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Country</td>
@@ -173,9 +176,11 @@ export default class Popup extends SmartView {
 
   _emojiClickHandler(evt) {
     evt.preventDefault();
+    const currentPosition = this.getElement().scrollTop;
     this.updateData({
       emojiType: evt.target.value,
     });
+    this.getElement().scrollTo(0, currentPosition);
     this.getElement().querySelector('.film-details__comment-input').placeholder = '';
   }
 
