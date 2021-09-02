@@ -78,7 +78,7 @@ const createPopupTemplate = (card) => {
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Runtime</td>
-                <td class="film-details__cell">${dayjs(movieInfo.runtime).format('H mm')}</td>
+                <td class="film-details__cell">${dayjs(movieInfo.runtime).format()}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Country</td>
