@@ -165,7 +165,7 @@ export default class Popup extends SmartView {
     this.setPopupWatchlistClickHandler(this._callback.watchlistClick);
     this.setPopupWatchedClickHandler(this._callback.watchedClick);
     this.setPopupFavoriteClickHandler(this._callback.favoriteClick);
-    this.setFormSubmitHandler(this._callback.formSubmit);
+    // this.setFormSubmitHandler(this._callback.formSubmit);
   }
 
   _setInnerHandlers() {

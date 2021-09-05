@@ -62,6 +62,12 @@ export const SortType = {
   BY_RATING: 'by-rating',
 };
 
+export const UserAction = {
+  UPDATE_CARD: 'UPDATE_CARD',
+  ADD_CARD: 'ADD_CARD',
+  DELETE_CARD: 'DELETE_CARD',
+};
+
 export const UpdateType = {
   PATCH: 'PATCH',
   MINOR: 'MINOR',

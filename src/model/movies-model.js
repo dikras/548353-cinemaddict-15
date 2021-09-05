@@ -29,4 +29,28 @@ export default class Movies extends AbstractObserver {
 
     this._notify(updateType, update);
   }
+
+  addMovie(updateType, update) {
+    this._movies = [
+      update,
+      ...this._movies,
+    ];
+
+    this._notify(updateType, update);
+  }
+
+  deleteTask(updateType, update) {
+    const index = this._movies.findIndex((movie) => movie.id === update.id);
+
+    if (index === -1) {
+      throw new Error('Can\'t delete unexisting movie');
+    }
+
+    this._movies = [
+      ...this._movies.slice(0, index),
+      ...this._movies.slice(index + 1),
+    ];
+
+    this._notify(updateType);
+  }
 }
