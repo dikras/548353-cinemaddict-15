@@ -237,14 +237,14 @@ export default class Popup extends SmartView {
     this.getElement().querySelector('.film-details__control-button--favorite').addEventListener('click', this._favoriteClickHandler);
   }
 
-  _formSubmitHandler(evt) {
+  _commentSubmitHandler(evt) {
     evt.preventDefault();
     this._callback.formSubmit(Popup.parseDataToCard(this._data));
   }
 
-  setFormSubmitHandler(callback) {
+  setCommentSubmitHandler(callback) {
     this._callback.formSubmit = callback;
-    this.getElement().querySelector('form').addEventListener('submit', this._formSubmitHandler);
+    this.getElement().querySelector('form').addEventListener('submit', this._commentSubmitHandler);
   }
 
   static parseCardToData(card) {

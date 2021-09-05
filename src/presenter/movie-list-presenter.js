@@ -9,15 +9,16 @@ import FilmsMostcommentedContainerView from '../view/films-list-mostcommented.js
 import ShowMoreButtonView from '../view/show-more-button.js';
 import NoFilmView from '../view/no-film.js';
 import { render, RenderPosition, remove } from '../utils/render.js';
-import { updateItem } from '../utils/common.js';
-import { CardCount, CardElementToSlice } from '../const.js';
+// import { CardCount, CardElementToSlice } from '../const.js';
+import { CardCount } from '../const.js';
 import { sortFilmByRating, sortFilmByDate } from '../utils/card-utils.js';
 import { SortType } from '../const.js';
 
 import MovieCardPresenter from './movie-card-presenter.js';
 
 export default class MovieList {
-  constructor(mainPageContainer) {
+  constructor(mainPageContainer, moviesModel) {
+    this._moviesModel = moviesModel;
     this._mainPageContainer = mainPageContainer;
     this._sortingComponent = new SortingView();
     this._renderedCardCount = CardCount.PER_STEP;
@@ -30,25 +31,33 @@ export default class MovieList {
     this._filmsTopratedContainerComponent = new FilmsTopratedContainerView();
     this._filmsMostcommentedContainerComponent = new FilmsMostcommentedContainerView();
 
-    this._filmsTopratedListContainerComponent = new FilmsListContainerView();
-    this._filmsMostcommentedListContainerComponent = new FilmsListContainerView();
+    /* this._filmsTopratedListContainerComponent = new FilmsListContainerView();
+    this._filmsMostcommentedListContainerComponent = new FilmsListContainerView(); */
 
     this._noFilmComponent = new NoFilmView();
     this._showMoreButtonComponent = new ShowMoreButtonView();
 
     this._handleShowMoreButtonClick = this._handleShowMoreButtonClick.bind(this);
-    this._handleFilmChange = this._handleFilmChange.bind(this);
     this._handleModeChange = this._handleModeChange.bind(this);
     this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
   }
 
-  init(filmCards) {
-    this._filmCards = filmCards.slice();
-    this._sourcedListCards = filmCards.slice();
+  init() {
 
     this._renderList();
-    this._renderTopRatedList();
-    this._renderMostCommentedList();
+    /* this._renderTopRatedList();
+    this._renderMostCommentedList(); */
+  }
+
+  _getCards() {
+    switch(this._currentSortType) {
+      case SortType.BY_DATE:
+        return this._moviesModel.getMovies().slice().sort(sortFilmByDate);
+      case SortType.BY_RATING:
+        return this._moviesModel.getMovies().slice().sort(sortFilmByRating);
+    }
+
+    return this._moviesModel.getMovies();
   }
 
   _handleModeChange() {
@@ -56,23 +65,7 @@ export default class MovieList {
   }
 
   _handleFilmChange(updatedFilm) {
-    this._filmCards = updateItem(this._filmCards, updatedFilm);
-    this._sourcedListCards = updateItem(this._sourcedListCards, updatedFilm);
     this._movieCardPresenter.get(updatedFilm.id).init(updatedFilm);
-  }
-
-  _sortCards(sortType) {
-    switch (sortType) {
-      case SortType.BY_DATE:
-        this._filmCards.sort(sortFilmByDate);
-        break;
-      case SortType.BY_RATING:
-        this._filmCards.sort(sortFilmByRating);
-        break;
-      default:
-        this._filmCards = this._sourcedListCards.slice();
-    }
-    this._currentSortType = sortType;
   }
 
   _handleSortTypeChange(sortType) {
@@ -80,7 +73,7 @@ export default class MovieList {
       return;
     }
 
-    this._sortCards(sortType);
+    this._currentSortType = sortType;
     this._clearCardsList();
     this._renderCardsList();
   }
@@ -102,16 +95,14 @@ export default class MovieList {
     render(this._filmsListComponent, this._filmsListContainerComponent, RenderPosition.BEFOREEND);
   }
 
-  _renderCard(container, card) {
-    const movieCardPresenter = new MovieCardPresenter(container, this._handleFilmChange, this._handleModeChange);
+  _renderCard(card) {
+    const movieCardPresenter = new MovieCardPresenter(this._filmsListContainerComponent, this._handleFilmChange, this._handleModeChange);
     movieCardPresenter.init(card);
     this._movieCardPresenter.set(card.id, movieCardPresenter);
   }
 
-  _renderCards(containerComponent, from, to) {
-    this._filmCards
-      .slice(from, to)
-      .forEach((filmCard) => this._renderCard(containerComponent, filmCard));
+  _renderCards(cards) {
+    cards.forEach((card) => this._renderCard(card));
   }
 
   _renderNoFilms() {
@@ -119,10 +110,14 @@ export default class MovieList {
   }
 
   _handleShowMoreButtonClick() {
-    this._renderCards(this._filmsListContainerComponent, this._renderedCardCount, this._renderedCardCount + CardCount.PER_STEP);
-    this._renderedCardCount += CardCount.PER_STEP;
+    const cardCount = this._getCards().length;
+    const newRenderedCardCount = Math.min(cardCount, this._renderedCardCount + CardCount.PER_STEP);
+    const cards = this._getCards().slice(this._renderedCardCount, newRenderedCardCount);
 
-    if (this._renderedCardCount >= this._filmCards.length) {
+    this._renderCards(cards);
+    this._renderedCardCount = newRenderedCardCount;
+
+    if (this._renderedCardCount >= cardCount) {
       remove(this._showMoreButtonComponent);
     }
   }
@@ -134,9 +129,12 @@ export default class MovieList {
   }
 
   _renderCardsList() {
-    this._renderCards(this._filmsListContainerComponent, 0, CardCount.MAIN_BLOCK);
+    const cardCount = this._getCards().length;
+    const cards = this._getCards().slice(0, Math.min(cardCount, CardCount.PER_STEP));
 
-    if (this._filmCards.length > CardCount.PER_STEP) {
+    this._renderCards(cards);
+
+    if (cardCount > CardCount.PER_STEP) {
       this._renderShowMoreButton();
     }
   }
@@ -160,7 +158,7 @@ export default class MovieList {
     }
   }
 
-  _renderTopRatedList() {
+  /* _renderTopRatedList() {
     render(this._filmsContainerComponent, this._filmsTopratedContainerComponent, RenderPosition.BEFOREEND);
     render(this._filmsTopratedContainerComponent, this._filmsTopratedListContainerComponent, RenderPosition.BEFOREEND);
 
@@ -176,5 +174,5 @@ export default class MovieList {
     this._renderCards(this._filmsMostcommentedListContainerComponent,
       CardElementToSlice.FIRST_IN_MOSTCOMMENTED_BLOCK,
       CardElementToSlice.LAST_IN_MOSTCOMMENTED_BLOCK);
-  }
+  } */
 }
