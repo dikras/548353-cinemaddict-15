@@ -1,7 +1,7 @@
 import {nanoid} from 'nanoid';
 import { MOVIE_TITLES, DESCRIPTIONS, POSTER_URLS,
   MOVIE_GENRES, MovieRating, MAX_LENGTH_DESCRIPTION, WRITERS, ACTORS } from '../const.js';
-import { getRandomFloat, getRandomItem,
+import { getRandomInteger, getRandomFloat, getRandomItem,
   getRandomDescription } from '../utils/common.js';
 import { generateComments } from './comment-mock.js';
 
@@ -35,10 +35,10 @@ const generateMovieCard = () => ({
     description: createDescription(),
   },
   userDetails: {
-    watchlist: false,
-    alreadyWatched: false,
+    watchlist: Boolean(getRandomInteger(0, 1)),
+    alreadyWatched: Boolean(getRandomInteger(0, 1)),
     watchingDate: '2019-04-12T16:12:32.554Z',
-    favorite: false,
+    favorite: Boolean(getRandomInteger(0, 1)),
   },
 });
 

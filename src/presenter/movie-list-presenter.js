@@ -76,7 +76,7 @@ export default class MovieList {
 
   _handleViewAction(actionType, updateType, update) {
     switch (actionType) {
-      case UserAction.UPDATE_CATD:
+      case UserAction.UPDATE_CARD:
         this._moviesModel.updateMovie(updateType, update);
         break;
       case UserAction.ADD_CARD:
