@@ -61,3 +61,10 @@ export const SortType = {
   BY_DATE: 'by-date',
   BY_RATING: 'by-rating',
 };
+
+export const FilterType = {
+  ALL: 'all',
+  WATCHLIST: 'watchlist',
+  HISTORY: 'history',
+  FAVORITES: 'favorites',
+};

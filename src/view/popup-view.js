@@ -29,9 +29,9 @@ const createPopupTemplate = (card) => {
   const { movieInfo, userDetails, comments, isComments, emojiType } = card;
 
   const setPopupControlsItemActive = (value) => value ? 'film-details__control-button--active' : '';
-
+  
   const watchlistClassActive = setPopupControlsItemActive(userDetails.watchlist);
-
+  
   const alreadyWatchedClassActive = setPopupControlsItemActive(userDetails.alreadyWatched);
 
   const favoriteClassActive = setPopupControlsItemActive(userDetails.favorite);
@@ -39,6 +39,12 @@ const createPopupTemplate = (card) => {
   const commentsListTemplate = createCommentsListTemplate(comments, isComments);
 
   const emojiTemplate = createEmojiTemplate(emojiType);
+
+  const generateGenre = (genres) => {
+    let genre = '';
+    genres.forEach((genreItem) => genre += `<span class="film-details__genre">${genreItem}</span>`);
+    return genre;
+  }
 
   return `<section class="film-details">
     <form class="film-details__inner" action="" method="get">
@@ -88,11 +94,10 @@ const createPopupTemplate = (card) => {
                 <td class="film-details__cell">${movieInfo.release.releaseCountry}</td>
               </tr>
               <tr class="film-details__row">
-                <td class="film-details__term">Genres</td>
+                <td class="film-details__term">Genre${movieInfo.genres.length > 1 ? 's' : ''}</td>
                 <td class="film-details__cell">
-                  <span class="film-details__genre">${movieInfo.genre}</span>
-                  <span class="film-details__genre">${movieInfo.genre}</span>
-                  <span class="film-details__genre">${movieInfo.genre}</span></td>
+                  <span class="film-details__genre">${generateGenre(movieInfo.genres)}</span>
+                </td>
               </tr>
             </table>
             <p class="film-details__film-description">
@@ -146,9 +151,9 @@ export default class Popup extends SmartView {
     this._data = Popup.parseCardToData(card);
 
     this._closePopupClickHandler = this._closePopupClickHandler.bind(this);
-    this._watchlistClickHandler = this._watchlistClickHandler.bind(this);
-    this._watchedClickHandler = this._watchedClickHandler.bind(this);
-    this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
+    this._watchlistPopupClickHandler = this._watchlistPopupClickHandler.bind(this);
+    this._watchedPopupClickHandler = this._watchedPopupClickHandler.bind(this);
+    this._favoritePopupClickHandler = this._favoritePopupClickHandler.bind(this);
     this._emojiClickHandler = this._emojiClickHandler.bind(this);
     this._commentInputHandler = this._commentInputHandler.bind(this);
     this._setInnerHandlers();
@@ -162,10 +167,10 @@ export default class Popup extends SmartView {
     this._setInnerHandlers();
 
     this.setClosePopupClickHandler(this._callback.click);
-    this.setPopupWatchlistClickHandler(this._callback.watchlistClick);
-    this.setPopupWatchedClickHandler(this._callback.watchedClick);
-    this.setPopupFavoriteClickHandler(this._callback.favoriteClick);
-    this.setFormSubmitHandler(this._callback.formSubmit);
+    this.setWatchlistPopupClickHandler(this._callback.watchlistClick);
+    this.setWatchedPopupClickHandler(this._callback.watchedClick);
+    this.setFavoritePopupClickHandler(this._callback.favoriteClick);
+    this.setCommentSubmitHandler(this._callback.commentSubmit);
   }
 
   _setInnerHandlers() {
@@ -197,19 +202,34 @@ export default class Popup extends SmartView {
 
   }
 
-  _watchlistClickHandler(evt) {
+  _watchlistPopupClickHandler(evt) {
     evt.preventDefault();
+    const currentPosition = this.getElement().scrollTop;
     this._callback.watchlistClick();
+    this.updateData({
+      watchlist: this._data.userDetails.watchlist,
+    });
+    this.getElement().scrollTo(0, currentPosition);
   }
 
-  _watchedClickHandler(evt) {
+  _watchedPopupClickHandler(evt) {
     evt.preventDefault();
+    const currentPosition = this.getElement().scrollTop;
     this._callback.watchedClick();
+    this.updateData({
+      alreadyWatched: this._data.userDetails.alreadyWatched,
+    });
+    this.getElement().scrollTo(0, currentPosition);
   }
 
-  _favoriteClickHandler(evt) {
+  _favoritePopupClickHandler(evt) {
     evt.preventDefault();
+    const currentPosition = this.getElement().scrollTop;
     this._callback.favoriteClick();
+    this.updateData({
+      favorite: this._data.userDetails.favorite,
+    });
+    this.getElement().scrollTo(0, currentPosition);
   }
 
   setClosePopupClickHandler(callback) {
@@ -222,29 +242,29 @@ export default class Popup extends SmartView {
     this.getElement().removeEventListener('click', this._clickHandler);
   }
 
-  setPopupWatchlistClickHandler(callback) {
+  setWatchlistPopupClickHandler(callback) {
     this._callback.watchlistClick = callback;
-    this.getElement().querySelector('.film-details__control-button--watchlist').addEventListener('click', this._watchlistClickHandler);
+    this.getElement().querySelector('.film-details__control-button--watchlist').addEventListener('click', this._watchlistPopupClickHandler);
   }
 
-  setPopupWatchedClickHandler(callback) {
+  setWatchedPopupClickHandler(callback) {
     this._callback.watchedClick = callback;
-    this.getElement().querySelector('.film-details__control-button--watched').addEventListener('click', this._watchedClickHandler);
+    this.getElement().querySelector('.film-details__control-button--watched').addEventListener('click', this._watchedPopupClickHandler);
   }
 
-  setPopupFavoriteClickHandler(callback) {
+  setFavoritePopupClickHandler(callback) {
     this._callback.favoriteClick = callback;
-    this.getElement().querySelector('.film-details__control-button--favorite').addEventListener('click', this._favoriteClickHandler);
+    this.getElement().querySelector('.film-details__control-button--favorite').addEventListener('click', this._favoritePopupClickHandler);
   }
 
-  _formSubmitHandler(evt) {
+  _commentSubmitHandler(evt) {
     evt.preventDefault();
-    this._callback.formSubmit(Popup.parseDataToCard(this._data));
+    this._callback.commentSubmit(Popup.parseDataToCard(this._data));
   }
 
-  setFormSubmitHandler(callback) {
+  setCommentSubmitHandler(callback) {
     this._callback.formSubmit = callback;
-    this.getElement().querySelector('form').addEventListener('submit', this._formSubmitHandler);
+    this.getElement().querySelector('form').addEventListener('submit', this._commentSubmitHandler);
   }
 
   static parseCardToData(card) {

@@ -82,9 +82,9 @@ export default class MovieCard {
     render(bodyElement, this._popupComponent, RenderPosition.BEFOREEND);
 
     this._popupComponent.setClosePopupClickHandler(this._onClosePopupElementClick);
-    this._popupComponent.setPopupWatchlistClickHandler(this._handleWatchlistClick);
-    this._popupComponent.setPopupWatchedClickHandler(this._handleWatchedClick);
-    this._popupComponent.setPopupFavoriteClickHandler(this._handleFavoriteClick);
+    this._popupComponent.setWatchlistPopupClickHandler(this._handleWatchlistClick);
+    this._popupComponent.setWatchedPopupClickHandler(this._handleWatchedClick);
+    this._popupComponent.setFavoritePopupClickHandler(this._handleFavoriteClick);
 
     document.addEventListener('keydown', this._onEscKeydown);
     this._changeMode();
