@@ -2,7 +2,7 @@ import { render, RenderPosition, remove, replace } from '../utils/render.js';
 import CardView from '../view/card-view.js';
 import PopupView from '../view/popup-view.js';
 import { isEscEvent } from '../utils/common.js';
-import {UserAction, UpdateType} from '../const.js';
+import { UserAction, UpdateType } from '../const.js';
 
 const bodyElement = document.querySelector('body');
 

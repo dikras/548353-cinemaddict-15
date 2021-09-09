@@ -29,9 +29,9 @@ const createPopupTemplate = (card) => {
   const { movieInfo, userDetails, comments, isComments, emojiType } = card;
 
   const setPopupControlsItemActive = (value) => value ? 'film-details__control-button--active' : '';
-  
+
   const watchlistClassActive = setPopupControlsItemActive(userDetails.watchlist);
-  
+
   const alreadyWatchedClassActive = setPopupControlsItemActive(userDetails.alreadyWatched);
 
   const favoriteClassActive = setPopupControlsItemActive(userDetails.favorite);
@@ -44,7 +44,7 @@ const createPopupTemplate = (card) => {
     let genre = '';
     genres.forEach((genreItem) => genre += `<span class="film-details__genre">${genreItem}</span>`);
     return genre;
-  }
+  };
 
   return `<section class="film-details">
     <form class="film-details__inner" action="" method="get">

@@ -1,26 +1,26 @@
 import SortingView from '../view/sorting-view.js';
-
 import FilmsContainerView from '../view/films-container.js';
 import FilmsListView from '../view/films-list.js';
 import FilmsListContainerView from '../view/films-list-container.js';
 import FilmsTopratedContainerView from '../view/films-list-toprated.js';
 import FilmsMostcommentedContainerView from '../view/films-list-mostcommented.js';
-
 import ShowMoreButtonView from '../view/show-more-button.js';
 import NoFilmView from '../view/no-film.js';
 import { render, RenderPosition, remove } from '../utils/render.js';
 import { CardCount } from '../const.js';
 import { sortFilmByRating, sortFilmByDate } from '../utils/card-utils.js';
-import { SortType, UserAction, UpdateType } from '../const.js';
-
+import { SortType, UserAction, UpdateType, FilterType } from '../const.js';
+import { filter } from '../utils/filter.js';
 import MovieCardPresenter from './movie-card-presenter.js';
 
 export default class MovieList {
-  constructor(mainPageContainer, moviesModel) {
+  constructor(mainPageContainer, moviesModel, filterModel) {
     this._moviesModel = moviesModel;
+    this._filterModel = filterModel;
     this._mainPageContainer = mainPageContainer;
     this._renderedCardCount = CardCount.PER_STEP;
     this._movieCardPresenter = new Map();
+    this._filterType = FilterType.ALL;
     this._currentSortType = SortType.DEFAULT;
 
     this._filmsContainerComponent = new FilmsContainerView();
@@ -32,7 +32,7 @@ export default class MovieList {
     this._filmsTopratedListContainerComponent = new FilmsListContainerView();
     this._filmsMostcommentedListContainerComponent = new FilmsListContainerView();
 
-    this._noFilmComponent = new NoFilmView();
+    this._noFilmComponent = null;
     this._sortingComponent = null;
     this._showMoreButtonComponent = null;
 
@@ -43,6 +43,7 @@ export default class MovieList {
     this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
 
     this._moviesModel.addObserver(this._handleModelEvent);
+    this._filterModel.addObserver(this._handleModelEvent);
   }
 
   init() {
@@ -50,13 +51,17 @@ export default class MovieList {
   }
 
   _getMovies() {
+    this._filterType = this._filterModel.getFilter();
+    const movies = this._moviesModel.getMovies();
+    const filtredMovies = filter[this._filterType](movies);
+
     switch (this._currentSortType) {
       case SortType.BY_DATE:
-        return this._moviesModel.getMovies().slice().sort(sortFilmByDate);
+        return filtredMovies.sort(sortFilmByDate);
       case SortType.BY_RATING:
-        return this._moviesModel.getMovies().slice().sort(sortFilmByRating);
+        return filtredMovies.sort(sortFilmByRating);
     }
-    return this._moviesModel.getMovies();
+    return filtredMovies;
   }
 
   _handleModeChange() {
@@ -135,6 +140,7 @@ export default class MovieList {
   }
 
   _renderNoFilms() {
+    this._noFilmComponent = new NoFilmView(this._filterType);
     render(this._mainPageContainer, this._noFilmComponent, RenderPosition.BEFOREEND);
   }
 
@@ -177,8 +183,11 @@ export default class MovieList {
     this._movieCardPresenter.clear();
 
     remove(this._sortingComponent);
-    remove(this._noFilmComponent);
     remove(this._showMoreButtonComponent);
+
+    if (this._noFilmComponent) {
+      remove(this._noFilmComponent);
+    }
 
     if (resetRenderedCardCount) {
       this._renderedCardCount = CardCount.PER_STEP;

@@ -1,6 +1,6 @@
 import {nanoid} from 'nanoid';
 import { MOVIE_TITLES, DESCRIPTIONS, POSTER_URLS,
-  MOVIE_GENRES, MovieRating, MAX_LENGTH_DESCRIPTION, WRITERS, ACTORS } from '../const.js';
+  MovieRating, MAX_LENGTH_DESCRIPTION, WRITERS, ACTORS } from '../const.js';
 import { getRandomInteger, getRandomFloat, getRandomItem,
   getRandomDescription } from '../utils/common.js';
 import { generateComments } from './comment-mock.js';
