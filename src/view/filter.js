@@ -40,7 +40,7 @@ export default class Filter extends AbstractView {
       return;
     }
     evt.preventDefault();
-    this._callback.filterTypeChange(evt.target.dataset.filterType);
+    this._callback.filterTypeChange(evt.target.href.split('#')[1]);
   }
 
   setFilterTypeChangeHandler(callback) {

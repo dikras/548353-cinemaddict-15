@@ -2,21 +2,20 @@ import SortingView from '../view/sorting-view.js';
 import FilmsContainerView from '../view/films-container.js';
 import FilmsListView from '../view/films-list.js';
 import FilmsListContainerView from '../view/films-list-container.js';
-import FilmsTopratedContainerView from '../view/films-list-toprated.js';
-import FilmsMostcommentedContainerView from '../view/films-list-mostcommented.js';
 import ShowMoreButtonView from '../view/show-more-button.js';
 import NoFilmView from '../view/no-film.js';
 import { render, RenderPosition, remove } from '../utils/render.js';
 import { CardCount } from '../const.js';
 import { sortFilmByRating, sortFilmByDate } from '../utils/card-utils.js';
 import { SortType, UserAction, UpdateType, FilterType } from '../const.js';
-import { filter } from '../utils/filter.js';
+import { filterMovie } from '../utils/filter.js';
 import MovieCardPresenter from './movie-card-presenter.js';
 
 export default class MovieList {
-  constructor(mainPageContainer, moviesModel, filterModel) {
+  constructor(mainPageContainer, moviesModel, filterModel, commentsModel) {
     this._moviesModel = moviesModel;
     this._filterModel = filterModel;
+    this._commentsModel = commentsModel;
     this._mainPageContainer = mainPageContainer;
     this._renderedCardCount = CardCount.PER_STEP;
     this._movieCardPresenter = new Map();
@@ -26,11 +25,6 @@ export default class MovieList {
     this._filmsContainerComponent = new FilmsContainerView();
     this._filmsListComponent = new FilmsListView();
     this._filmsListContainerComponent = new FilmsListContainerView();
-    this._filmsTopratedContainerComponent = new FilmsTopratedContainerView();
-    this._filmsMostcommentedContainerComponent = new FilmsMostcommentedContainerView();
-
-    this._filmsTopratedListContainerComponent = new FilmsListContainerView();
-    this._filmsMostcommentedListContainerComponent = new FilmsListContainerView();
 
     this._noFilmComponent = null;
     this._sortingComponent = null;
@@ -44,6 +38,7 @@ export default class MovieList {
 
     this._moviesModel.addObserver(this._handleModelEvent);
     this._filterModel.addObserver(this._handleModelEvent);
+    this._commentsModel.addObserver(this._handleModelEvent);
   }
 
   init() {
@@ -53,7 +48,7 @@ export default class MovieList {
   _getMovies() {
     this._filterType = this._filterModel.getFilter();
     const movies = this._moviesModel.getMovies();
-    const filtredMovies = filter[this._filterType](movies);
+    const filtredMovies = filterMovie[this._filterType](movies);
 
     switch (this._currentSortType) {
       case SortType.BY_DATE:
@@ -73,19 +68,19 @@ export default class MovieList {
       case UserAction.UPDATE_CARD:
         this._moviesModel.updateMovie(updateType, update);
         break;
-      /* case UserAction.ADD_COMMENT:
+      case UserAction.ADD_COMMENT:
         this._commentsModel.addComment(updateType, update);
         break;
       case UserAction.DELETE_COMMENT:
         this._commentsModel.deleteComment(updateType, update);
-        break; */
+        break;
     }
   }
 
   _handleModelEvent(updateType, data) {
     switch (updateType) {
       case UpdateType.PATCH:
-
+        // this._movieCardPresenter.get(data.id).init(data);
         break;
       case UpdateType.MINOR:
         this._movieCardPresenter.get(data.id).init(data);
@@ -218,20 +213,4 @@ export default class MovieList {
       this._renderShowMoreButton();
     }
   }
-
-  /* _renderTopRatedList() {
-    render(this._filmsContainerComponent, this._filmsTopratedContainerComponent, RenderPosition.BEFOREEND);
-    render(this._filmsTopratedContainerComponent, this._filmsTopratedListContainerComponent, RenderPosition.BEFOREEND);
-
-    const topRatedCards = this._getMovies().slice(6, 8);
-    this._renderCards(this._filmsTopratedListContainerComponent, topRatedCards);
-  }
-
-  _renderMostCommentedList() {
-    render(this._filmsContainerComponent, this._filmsMostcommentedContainerComponent, RenderPosition.BEFOREEND);
-    render(this._filmsMostcommentedContainerComponent, this._filmsMostcommentedListContainerComponent, RenderPosition.BEFOREEND);
-
-    const mostCommentedCards = this._getMovies().slice(10, 12);
-    this._renderCards(this._filmsMostcommentedListContainerComponent, mostCommentedCards);
-  } */
 }
