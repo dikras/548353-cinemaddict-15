@@ -3,6 +3,8 @@ import {nanoid} from 'nanoid';
 import duration from 'dayjs/plugin/duration';
 dayjs.extend(duration);
 import SmartView from './smart.js';
+import { ENTER } from '../const.js';
+import he from 'he';
 
 const createCommentsListTemplate = (comments, isComments) => (isComments) ? (`
   ${comments.map((comment) =>
@@ -11,7 +13,7 @@ const createCommentsListTemplate = (comments, isComments) => (isComments) ? (`
         <img src="./images/emoji/${comment.emotion}.png" width="55" height="55" alt="emoji-smile">
       </span>
       <div>
-        <p class="film-details__comment-text">${comment.text}</p>
+        <p class="film-details__comment-text">${he.encode(comment.text)}</p>
         <p class="film-details__comment-info">
           <span class="film-details__comment-author">${comment.author}</span>
           <span class="film-details__comment-day">${dayjs(comment.date).format('YYYY/MM/DD HH:MM')}</span>
@@ -217,7 +219,7 @@ export default class Popup extends SmartView {
   }
 
   _commentSubmitHandler(evt) {
-    if (evt.ctrlKey && evt.key === 'Enter') {
+    if (evt.ctrlKey && evt.key === ENTER) {
       const userComment = {
         id: nanoid(),
         author: 'Dmitry Krasyukov',

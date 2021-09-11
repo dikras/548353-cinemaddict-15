@@ -1,10 +1,6 @@
 import {nanoid} from 'nanoid';
 import { MOVIE_TITLES, DESCRIPTIONS, POSTER_URLS,
-<<<<<<< HEAD
-  MOVIE_GENRES, MovieRating, MAX_LENGTH_DESCRIPTION, WRITERS, ACTORS } from '../const.js';
-=======
   MovieRating, MAX_LENGTH_DESCRIPTION, WRITERS, ACTORS } from '../const.js';
->>>>>>> module7-task1.v2
 import { getRandomInteger, getRandomFloat, getRandomItem,
   getRandomDescription } from '../utils/common.js';
 import { generateComments } from './comments-mock.js';
