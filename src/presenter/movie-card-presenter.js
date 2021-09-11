@@ -2,7 +2,7 @@ import { render, RenderPosition, remove, replace } from '../utils/render.js';
 import CardView from '../view/card-view.js';
 import PopupView from '../view/popup-view.js';
 import { isEscEvent } from '../utils/common.js';
-import {UserAction, UpdateType} from '../const.js';
+import { UserAction, UpdateType } from '../const.js';
 
 const bodyElement = document.querySelector('body');
 
@@ -29,6 +29,8 @@ export default class MovieCard {
     this._handleWatchlistClick = this._handleWatchlistClick.bind(this);
     this._handleWatchedClick = this._handleWatchedClick.bind(this);
     this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
+    this._handleCommentDeleteClick = this._handleCommentDeleteClick.bind(this);
+    this._handleCommentSubmit = this._handleCommentSubmit.bind(this);
   }
 
   init(card) {
@@ -41,7 +43,7 @@ export default class MovieCard {
     this._movieCardComponent.setWatchlistClickHandler(this._handleWatchlistClick);
     this._movieCardComponent.setWatchedClickHandler(this._handleWatchedClick);
     this._movieCardComponent.setFavoriteClickHandler(this._handleFavoriteClick);
-    this._movieCardComponent.setClickHandler(() => this._onFilmCardElementClick());
+    // this._movieCardComponent.setClickHandler(() => this._onFilmCardElementClick());
 
     if (prevMovieCardComponent === null) {
       render(this._movieCardContainer, this._movieCardComponent, RenderPosition.BEFOREEND);
@@ -83,9 +85,11 @@ export default class MovieCard {
     render(bodyElement, this._popupComponent, RenderPosition.BEFOREEND);
 
     this._popupComponent.setClosePopupClickHandler(this._onClosePopupElementClick);
-    this._popupComponent.setPopupWatchlistClickHandler(this._handleWatchlistClick);
-    this._popupComponent.setPopupWatchedClickHandler(this._handleWatchedClick);
-    this._popupComponent.setPopupFavoriteClickHandler(this._handleFavoriteClick);
+    this._popupComponent.setWatchlistPopupClickHandler(this._handleWatchlistClick);
+    this._popupComponent.setWatchedPopupClickHandler(this._handleWatchedClick);
+    this._popupComponent.setFavoritePopupClickHandler(this._handleFavoriteClick);
+    this._popupComponent.setCommentDeleteClickHandler(this._handleCommentDeleteClick);
+    this._popupComponent.setCommentSubmitHandler(this._handleCommentSubmit);
 
     document.addEventListener('keydown', this._onEscKeydown);
     this._changeMode();
@@ -95,6 +99,22 @@ export default class MovieCard {
 
   _onFilmCardElementClick() {
     this.renderPopup();
+  }
+
+  _handleCommentDeleteClick(card) {
+    this._changeData(
+      UpdateType.PATCH,
+      UpdateType.MINOR,
+      card,
+    );
+  }
+
+  _handleCommentSubmit(card) {
+    this._changeData(
+      UpdateType.PATCH,
+      UpdateType.MINOR,
+      card,
+    );
   }
 
   _handleWatchlistClick() {

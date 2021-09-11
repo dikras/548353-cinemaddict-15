@@ -64,8 +64,13 @@ export const SortType = {
 
 export const UserAction = {
   UPDATE_CARD: 'UPDATE_CARD',
+<<<<<<< HEAD
   ADD_CARD: 'ADD_CARD',
   DELETE_CARD: 'DELETE_CARD',
+=======
+  ADD_COMMENT: 'ADD_COMMENT',
+  DELETE_COMMENT: 'DELETE_COMMENT',
+>>>>>>> module7-task1.v2
 };
 
 export const UpdateType = {

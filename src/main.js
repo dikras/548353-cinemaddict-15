@@ -1,13 +1,22 @@
 import { CardCount } from './const.js';
 import { generateMovieCard } from './mock/card-mock.js';
+
 import { render, RenderPosition } from './utils/render.js';
 import UserStatusView from './view/user-status.js';
 import FilmsCountView from './view/films-count.js';
+<<<<<<< HEAD
 import FilterModel from './model/filter-model';
 import MoviesModel from './model/movies-model';
 
 import MovieListPresenter from './presenter/movie-list-presenter.js';
 import FilterPresenter from './presenter/filter-presenter.js';
+=======
+import MoviesModel from './model/movies.js';
+import FilterModel from './model/filter.js';
+
+import MovieListPresenter from './presenter/movie-list-presenter.js';
+import FilterPresenter from './presenter/filter.js';
+>>>>>>> module7-task1.v2
 
 const headerElement = document.querySelector('.header');
 const siteMainElement = document.querySelector('.main');

@@ -1,9 +1,13 @@
 import {nanoid} from 'nanoid';
 import { MOVIE_TITLES, DESCRIPTIONS, POSTER_URLS,
+<<<<<<< HEAD
   MOVIE_GENRES, MovieRating, MAX_LENGTH_DESCRIPTION, WRITERS, ACTORS } from '../const.js';
+=======
+  MovieRating, MAX_LENGTH_DESCRIPTION, WRITERS, ACTORS } from '../const.js';
+>>>>>>> module7-task1.v2
 import { getRandomInteger, getRandomFloat, getRandomItem,
   getRandomDescription } from '../utils/common.js';
-import { generateComments } from './comment-mock.js';
+import { generateComments } from './comments-mock.js';
 
 const createDescription = () => {
   const description = getRandomDescription(DESCRIPTIONS).join('');
@@ -22,7 +26,7 @@ const generateMovieCard = () => ({
     alternativeTitle: 'Laziness Who Sold Themselves',
     poster: getRandomItem(POSTER_URLS),
     runtime: 77,
-    genre: getRandomItem(MOVIE_GENRES),
+    genres: ['Musical', 'Western'],
     totalRating: getRandomFloat(MovieRating.MIN, MovieRating.MAX),
     ageRating: 0,
     director: 'Tom Ford',
