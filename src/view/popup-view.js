@@ -189,19 +189,22 @@ export default class Popup extends SmartView {
       return;
     }
 
-    const index = this._comments.findIndex((comment) => comment.id === evt.target.id);
+    const indexComment = this._comments.findIndex((comment) => comment.id === evt.target.id);
     this._comments = [
-      ...this._comments.slice(0, index),
-      ...this._comments.slice(index + 1),
+      ...this._comments.slice(0, indexComment),
+      ...this._comments.slice(indexComment + 1),
     ];
 
+    evt.preventDefault();
+    const currentPosition = this.getElement().scrollTop;
+    this.getElement().scrollTop = this._data.scrollPosition;
+    this._callback.commentDeleteClick(Popup.parseDataToCard(this.data));
+
     this.updateData(
-      { ...this._data, comments: this._comments, scrollPosition: this.getElement().scrollTop },
+      { ...this._data, comments: this._comments },
     );
 
-    evt.preventDefault();
-    this.getElement().scrollTop = this._data.scrollPosition;
-    this._callback.commentDeleteClick(evt.target.id);
+    this.getElement().scrollTo(0, currentPosition);
   }
 
   setCommentDeleteClickHandler(callback) {

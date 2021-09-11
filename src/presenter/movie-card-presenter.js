@@ -99,12 +99,10 @@ export default class MovieCard {
     this.renderPopup();
   }
 
-  _handleCommentDeleteClick(id) {
-    const commentDelete = this._card.comments.find((comment) => comment.id === id);
+  _handleCommentDeleteClick(card) {
     this._changeData(
-      UserAction.DELETE_COMMENT,
       UpdateType.PATCH,
-      {...this._card, comments: commentDelete},
+      card,
     );
   }
 
