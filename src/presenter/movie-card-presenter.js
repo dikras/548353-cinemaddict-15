@@ -30,6 +30,7 @@ export default class MovieCard {
     this._handleWatchedClick = this._handleWatchedClick.bind(this);
     this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
     this._handleCommentDeleteClick = this._handleCommentDeleteClick.bind(this);
+    this._handleCommentSubmit = this._handleCommentSubmit.bind(this);
   }
 
   init(card) {
@@ -42,7 +43,7 @@ export default class MovieCard {
     this._movieCardComponent.setWatchlistClickHandler(this._handleWatchlistClick);
     this._movieCardComponent.setWatchedClickHandler(this._handleWatchedClick);
     this._movieCardComponent.setFavoriteClickHandler(this._handleFavoriteClick);
-    this._movieCardComponent.setClickHandler(() => this._onFilmCardElementClick());
+    // this._movieCardComponent.setClickHandler(() => this._onFilmCardElementClick());
 
     if (prevMovieCardComponent === null) {
       render(this._movieCardContainer, this._movieCardComponent, RenderPosition.BEFOREEND);
@@ -88,6 +89,7 @@ export default class MovieCard {
     this._popupComponent.setWatchedPopupClickHandler(this._handleWatchedClick);
     this._popupComponent.setFavoritePopupClickHandler(this._handleFavoriteClick);
     this._popupComponent.setCommentDeleteClickHandler(this._handleCommentDeleteClick);
+    this._popupComponent.setCommentSubmitHandler(this._handleCommentSubmit);
 
     document.addEventListener('keydown', this._onEscKeydown);
     this._changeMode();
@@ -102,6 +104,15 @@ export default class MovieCard {
   _handleCommentDeleteClick(card) {
     this._changeData(
       UpdateType.PATCH,
+      UpdateType.MINOR,
+      card,
+    );
+  }
+
+  _handleCommentSubmit(card) {
+    this._changeData(
+      UpdateType.PATCH,
+      UpdateType.MINOR,
       card,
     );
   }
