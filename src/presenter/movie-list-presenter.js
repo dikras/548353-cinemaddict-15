@@ -12,10 +12,9 @@ import { filterMovie } from '../utils/filter.js';
 import MovieCardPresenter from './movie-card-presenter.js';
 
 export default class MovieList {
-  constructor(mainPageContainer, moviesModel, filterModel, commentsModel) {
+  constructor(mainPageContainer, moviesModel, filterModel) {
     this._moviesModel = moviesModel;
     this._filterModel = filterModel;
-    this._commentsModel = commentsModel;
     this._mainPageContainer = mainPageContainer;
     this._renderedCardCount = CardCount.PER_STEP;
     this._movieCardPresenter = new Map();
@@ -38,7 +37,6 @@ export default class MovieList {
 
     this._moviesModel.addObserver(this._handleModelEvent);
     this._filterModel.addObserver(this._handleModelEvent);
-    this._commentsModel.addObserver(this._handleModelEvent);
   }
 
   init() {
@@ -69,10 +67,10 @@ export default class MovieList {
         this._moviesModel.updateMovie(updateType, update);
         break;
       case UserAction.ADD_COMMENT:
-        this._commentsModel.addComment(updateType, update);
+        this._moviesModel.addComment(updateType, update);
         break;
       case UserAction.DELETE_COMMENT:
-        this._commentsModel.deleteComment(updateType, update);
+        this._moviesModel.deleteComment(updateType, update);
         break;
     }
   }
@@ -80,7 +78,7 @@ export default class MovieList {
   _handleModelEvent(updateType, data) {
     switch (updateType) {
       case UpdateType.PATCH:
-        // this._movieCardPresenter.get(data.id).init(data);
+        this._movieCardPresenter.get(data.id).init(data);
         break;
       case UpdateType.MINOR:
         this._movieCardPresenter.get(data.id).init(data);

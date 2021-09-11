@@ -29,6 +29,7 @@ export default class MovieCard {
     this._handleWatchlistClick = this._handleWatchlistClick.bind(this);
     this._handleWatchedClick = this._handleWatchedClick.bind(this);
     this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
+    this._handleCommentDeleteClick = this._handleCommentDeleteClick.bind(this);
   }
 
   init(card) {
@@ -86,6 +87,7 @@ export default class MovieCard {
     this._popupComponent.setWatchlistPopupClickHandler(this._handleWatchlistClick);
     this._popupComponent.setWatchedPopupClickHandler(this._handleWatchedClick);
     this._popupComponent.setFavoritePopupClickHandler(this._handleFavoriteClick);
+    this._popupComponent.setCommentDeleteClickHandler(this._handleCommentDeleteClick);
 
     document.addEventListener('keydown', this._onEscKeydown);
     this._changeMode();
@@ -95,6 +97,15 @@ export default class MovieCard {
 
   _onFilmCardElementClick() {
     this.renderPopup();
+  }
+
+  _handleCommentDeleteClick(id) {
+    const commentDelete = this._card.comments.find((comment) => comment.id === id);
+    this._changeData(
+      UserAction.DELETE_COMMENT,
+      UpdateType.PATCH,
+      {...this._card, comments: commentDelete},
+    );
   }
 
   _handleWatchlistClick() {
