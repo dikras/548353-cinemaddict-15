@@ -44,20 +44,33 @@ export const CardCount = {
   PER_STEP: 5,
 };
 
-export const CardElementToSlice = {
-  FIRST_IN_TOPRATED_BLOCK: 6,
-  LAST_IN_TOPRATED_BLOCK: 8,
-  FIRST_IN_MOSTCOMMENTED_BLOCK: 9,
-  LAST_IN_MOSTCOMMENTED_BLOCK: 11,
-};
-
 export const MAX_LENGTH_DESCRIPTION = 140;
 
 export const ESC_IE = 'Esc';
 export const ESC_ALL_BROWSERS = 'Escape';
+export const ENTER = 'Enter';
 
 export const SortType = {
   DEFAULT: 'default',
   BY_DATE: 'by-date',
   BY_RATING: 'by-rating',
+};
+
+export const UserAction = {
+  UPDATE_CARD: 'UPDATE_CARD',
+  ADD_COMMENT: 'ADD_COMMENT',
+  DELETE_COMMENT: 'DELETE_COMMENT',
+};
+
+export const UpdateType = {
+  PATCH: 'PATCH',
+  MINOR: 'MINOR',
+  MAJOR: 'MAJOR',
+};
+
+export const FilterType = {
+  ALL: 'all',
+  WATCHLIST: 'watchlist',
+  HISTORY: 'history',
+  FAVORITES: 'favorites',
 };

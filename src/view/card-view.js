@@ -21,7 +21,7 @@ const createFilmCardTemplate = (card) => {
       <span class="film-card__year">${dayjs(movieInfo.release.date).format('YYYY')}</span>
       <span class="film-card__duration">${dayjs.duration(movieInfo.runtime, 'minutes').
     format('H')}h ${dayjs.duration(movieInfo.runtime, 'minutes').format('mm')}m</span>
-      <span class="film-card__genre">${movieInfo.genre}</span>
+      <span class="film-card__genre">${movieInfo.genres.join(' ')}</span>
     </p>
     <img src="${movieInfo.poster}" alt="" class="film-card__poster">
     <p class="film-card__description">${movieInfo.description}</p>
