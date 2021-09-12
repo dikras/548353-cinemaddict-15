@@ -1,9 +1,9 @@
 import { CardCount } from './const.js';
 import { generateMovieCard } from './mock/card-mock.js';
-
 import { render, RenderPosition } from './utils/render.js';
 import UserStatusView from './view/user-status.js';
 import FilmsCountView from './view/films-count.js';
+import StatisticsView from './view/statistics.js';
 import MoviesModel from './model/movies.js';
 import FilterModel from './model/filter.js';
 
@@ -29,3 +29,4 @@ const filterPresenter = new FilterPresenter(siteMainElement, filterModel, movies
 
 filterPresenter.init();
 movieListPresenter.init();
+render(siteMainElement, new StatisticsView(moviesModel.getMovies()), RenderPosition.BEFOREEND);
