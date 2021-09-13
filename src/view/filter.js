@@ -14,12 +14,9 @@ const createFilterTemplate = (filterItems, currentFilterType) => {
     .map((filter) => createFilterItemTemplate(filter, currentFilterType))
     .join('');
 
-  return `<nav class="main-navigation">
-    <div class="main-navigation__items">
+  return `<div class="main-navigation__items">
       ${filterItemsTemplate}
-    </div>
-    <a href="#stats" class="main-navigation__additional">Stats</a>
-  </nav>`;
+    </div>`;
 };
 
 export default class Filter extends AbstractView {
@@ -29,7 +26,6 @@ export default class Filter extends AbstractView {
     this._currentFilter = currentFilterType;
 
     this._filterTypeChangeHandler = this._filterTypeChangeHandler.bind(this);
-    this._navigationClickHandler = this._navigationClickHandler.bind(this);
   }
 
   getTemplate() {
@@ -47,18 +43,5 @@ export default class Filter extends AbstractView {
   setFilterTypeChangeHandler(callback) {
     this._callback.filterTypeChange = callback;
     this.getElement().addEventListener('click', this._filterTypeChangeHandler);
-  }
-
-  _navigationClickHandler(evt) {
-    if (evt.target.tagName !== 'A') {
-      return;
-    }
-    evt.preventDefault();
-    this._callback.navigationClick(evt.target.href.split('#')[1]);
-  }
-
-  setNavigationClickHandler(callback) {
-    this._callback.menuClick = callback;
-    this.getElement().addEventListener('click', this._navigationClickHandler);
   }
 }

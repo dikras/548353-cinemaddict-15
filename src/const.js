@@ -80,5 +80,5 @@ export const NavigationItem = {
   WATCHLIST: 'watchlist',
   HISTORY: 'history',
   FAVORITES: 'favorites',
-  STATISTICS: 'statistics',
+  STATISTICS: 'stats',
 };
