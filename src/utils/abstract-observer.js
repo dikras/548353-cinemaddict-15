@@ -14,4 +14,16 @@ export default class AbstractObserver {
   _notify(event, payload) {
     this._observers.forEach((observer) => observer(event, payload));
   }
+
+  showElement() {
+    if (this._element) {
+      this._element.classList.remove('visually-hidden');
+    }
+  }
+
+  hideElement() {
+    if (this._element) {
+      this._element.classList.add('visually-hidden');
+    }
+  }
 }

@@ -126,7 +126,7 @@ const createStatisticsTemplate = ({movies, dateFrom, dateTo, target}) => {
 </section>`);
 };
 
-export default class Statistic extends SmartView {
+export default class Statistics extends SmartView {
   constructor (movies) {
     super();
     this._watchedMovies = filterMovie[FilterType.HISTORY](movies);
