@@ -27,7 +27,6 @@ export default class Filter {
 
     if (prevFilterComponent === null) {
       render(this._filterContainer, this._filterComponent, RenderPosition.BEFOREEND);
-      return;
     }
 
     remove(prevFilterComponent);
