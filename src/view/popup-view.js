@@ -3,7 +3,7 @@ import {nanoid} from 'nanoid';
 import duration from 'dayjs/plugin/duration';
 dayjs.extend(duration);
 import SmartView from './smart.js';
-import { ENTER } from '../const.js';
+import { keyEvent } from '../const.js';
 import he from 'he';
 
 const createCommentsListTemplate = (comments, isComments) => (isComments) ? (`
@@ -219,7 +219,7 @@ export default class Popup extends SmartView {
   }
 
   _commentSubmitHandler(evt) {
-    if (evt.ctrlKey && evt.key === ENTER) {
+    if (evt.ctrlKey && evt.key === keyEvent.ENTER) {
       const userComment = {
         id: nanoid(),
         author: 'Dmitry Krasyukov',

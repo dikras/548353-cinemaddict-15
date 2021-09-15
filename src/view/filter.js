@@ -1,4 +1,5 @@
 import AbstractView from './abstract.js';
+import { FilterType } from '../const.js';
 
 const createFilterItemTemplate = (filter, currentFilterType) => {
   const {type, name, count} = filter;
@@ -15,11 +16,11 @@ const createFilterTemplate = (filterItems, currentFilterType) => {
     .join('');
 
   return `<nav class="main-navigation">
-    <div class="main-navigation__items">
-      ${filterItemsTemplate}
-    </div>
-    <a href="#stats" class="main-navigation__additional">Stats</a>
-  </nav>`;
+            <div class="main-navigation__items">
+              ${filterItemsTemplate}
+            </div>
+            <a href="#stats" class="main-navigation__additional">Stats</a>
+          </nav>`;
 };
 
 export default class Filter extends AbstractView {
@@ -29,6 +30,8 @@ export default class Filter extends AbstractView {
     this._currentFilter = currentFilterType;
 
     this._filterTypeChangeHandler = this._filterTypeChangeHandler.bind(this);
+    this._navigationClickHandler = this._navigationClickHandler.bind(this);
+    this._statsButton = this.getElement().querySelector('.main-navigation__additional');
   }
 
   getTemplate() {
@@ -45,6 +48,21 @@ export default class Filter extends AbstractView {
 
   setFilterTypeChangeHandler(callback) {
     this._callback.filterTypeChange = callback;
-    this.getElement().addEventListener('click', this._filterTypeChangeHandler);
+    this.getElement().querySelector('.main-navigation__items').addEventListener('click', this._filterTypeChangeHandler);
+  }
+
+  _navigationClickHandler(evt) {
+    evt.preventDefault();
+    const activeBtn = this.getElement().querySelector('.main-navigation__item--active');
+    if ((activeBtn) && (evt.target.href.split('#')[1] === FilterType.STATISTICS)) {
+      activeBtn.classList.remove('main-navigation__item--active');
+      this._statsButton.classList.add('main-navigation__additional--active');
+    }
+    this._callback.navigationClick(evt.target.href.split('#')[1]);
+  }
+
+  setNavigationClickHandler(callback) {
+    this._callback.navigationClick = callback;
+    this.getElement().querySelector('.main-navigation__additional').addEventListener('click', this._navigationClickHandler);
   }
 }

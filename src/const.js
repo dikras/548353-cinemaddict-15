@@ -26,11 +26,16 @@ export const POSTER_URLS = [
   './images/posters/the-man-with-the-golden-arm.jpg',
 ];
 
-export const MOVIE_GENRES = ['Musical', 'Western', 'Drama', 'Comedy', 'Cartoon', 'Mystery'];
+export const MOVIE_GENRES = ['Musical', 'Western', 'Drama', 'Comedy', 'Cartoon', 'Mystery', 'Sci-Fi'];
 
 export const WRITERS = ['Takeshi Kitano', 'Matt Damon'];
 
 export const ACTORS = ['Bruce Willis', 'Willem Defoe', 'Robert Pattison'];
+
+export const ReleaseYear = {
+  from: 1929,
+  to: 2020,
+};
 
 export const MovieRating = {
   MIN: 2,
@@ -46,9 +51,11 @@ export const CardCount = {
 
 export const MAX_LENGTH_DESCRIPTION = 140;
 
-export const ESC_IE = 'Esc';
-export const ESC_ALL_BROWSERS = 'Escape';
-export const ENTER = 'Enter';
+export const keyEvent = {
+  ESC_IE: 'Esc',
+  ESC_ALL_BROWSERS: 'Escape',
+  ENTER: 'Enter',
+};
 
 export const SortType = {
   DEFAULT: 'default',
@@ -73,4 +80,36 @@ export const FilterType = {
   WATCHLIST: 'watchlist',
   HISTORY: 'history',
   FAVORITES: 'favorites',
+  STATISTICS: 'stats',
+};
+
+export const UserRank = {
+  novice: {
+    rank: 'novice',
+    from: 1,
+    to: 10,
+  },
+  fan: {
+    rank: 'fan',
+    from: 11,
+    to: 20,
+  },
+  movieBuff: {
+    rank: 'movieBuff',
+    from: 21,
+    to: Infinity,
+  },
+};
+
+export const DurationType = {
+  HOURS: 'hours',
+  MINUTES: 'minutes',
+};
+
+export const PeriodType = {
+  ALL: 'all-time',
+  TODAY: 'today',
+  WEEK: 'week',
+  MONTH: 'month',
+  YEAR: 'year',
 };
