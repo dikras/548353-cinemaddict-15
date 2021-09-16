@@ -4,7 +4,10 @@ import duration from 'dayjs/plugin/duration';
 dayjs.extend(duration);
 import SmartView from './smart.js';
 import { keyEvent } from '../const.js';
-import he from 'he';
+// import CommentsModel from '../model/comments.js';
+
+// import he from 'he';
+// <p class="film-details__comment-text">${he.encode(comment.text)}</p>
 
 const createCommentsListTemplate = (comments, isComments) => (isComments) ? (`
   ${comments.map((comment) =>
@@ -13,7 +16,7 @@ const createCommentsListTemplate = (comments, isComments) => (isComments) ? (`
         <img src="./images/emoji/${comment.emotion}.png" width="55" height="55" alt="emoji-smile">
       </span>
       <div>
-        <p class="film-details__comment-text">${he.encode(comment.text)}</p>
+        <p class="film-details__comment-text">${comment.comment}</p>
         <p class="film-details__comment-info">
           <span class="film-details__comment-author">${comment.author}</span>
           <span class="film-details__comment-day">${dayjs(comment.date).format('YYYY/MM/DD HH:MM')}</span>
@@ -98,9 +101,9 @@ const createPopupTemplate = (card) => {
                 <td class="film-details__cell">${movieInfo.release.releaseCountry}</td>
               </tr>
               <tr class="film-details__row">
-                <td class="film-details__term">Genre${movieInfo.genres.length > 1 ? 's' : ''}</td>
+                <td class="film-details__term">Genre${movieInfo.genre.length > 1 ? 's' : ''}</td>
                 <td class="film-details__cell">
-                  <span class="film-details__genre">${generateGenre(movieInfo.genres)}</span>
+                  <span class="film-details__genre">${generateGenre(movieInfo.genre)}</span>
                 </td>
               </tr>
             </table>

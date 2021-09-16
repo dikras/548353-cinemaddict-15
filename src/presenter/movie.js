@@ -2,8 +2,11 @@ import { render, RenderPosition, remove, replace } from '../utils/render.js';
 import CardView from '../view/movie.js';
 import PopupView from '../view/popup.js';
 import { isEscEvent } from '../utils/common.js';
-import { UserAction, UpdateType } from '../const.js';
+import { UserAction, UpdateType, END_POINT, AUTHORIZATION } from '../const.js';
+import Api from '../api.js';
+import CommentsModel from '../model/comments.js';
 
+const api = new Api(END_POINT, AUTHORIZATION);
 const bodyElement = document.querySelector('body');
 
 const Mode = {
@@ -16,6 +19,7 @@ export default class MovieCard {
     this._movieCardContainer = movieCardContainer;
     this._changeData = changeData;
     this._changeMode = changeMode;
+    this._commentsModel = new CommentsModel();
 
     this._movieCardComponent = null;
     this._popupComponent = null;
@@ -89,6 +93,10 @@ export default class MovieCard {
     this._popupComponent.setFavoritePopupClickHandler(this._handleFavoriteClick);
     this._popupComponent.setCommentDeleteClickHandler(this._handleCommentDeleteClick);
     this._popupComponent.setCommentSubmitHandler(this._handleCommentSubmit);
+
+    api.getComments(this._card.id).then((comments) => {
+      this._commentsModel.setComments(comments);
+    });
 
     document.addEventListener('keydown', this._onEscKeydown);
     this._changeMode();
