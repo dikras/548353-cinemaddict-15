@@ -45,7 +45,6 @@ export const MovieRating = {
 export const CardCount = {
   MAIN_BLOCK: 5,
   ADD_BLOCK: 2,
-  TOTAL: 15,
   PER_STEP: 5,
 };
 
@@ -73,6 +72,7 @@ export const UpdateType = {
   PATCH: 'PATCH',
   MINOR: 'MINOR',
   MAJOR: 'MAJOR',
+  INIT: 'INIT',
 };
 
 export const FilterType = {
@@ -113,3 +113,7 @@ export const PeriodType = {
   MONTH: 'month',
   YEAR: 'year',
 };
+
+export const AUTHORIZATION = 'Basic di16yk08v1970ma';
+
+export const END_POINT = 'https://15.ecmascript.pages.academy/cinemaddict';

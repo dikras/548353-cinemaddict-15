@@ -1,6 +1,6 @@
 import { render, RenderPosition, remove, replace } from '../utils/render.js';
-import CardView from '../view/card-view.js';
-import PopupView from '../view/popup-view.js';
+import CardView from '../view/movie.js';
+import PopupView from '../view/popup.js';
 import { isEscEvent } from '../utils/common.js';
 import { UserAction, UpdateType } from '../const.js';
 
@@ -43,7 +43,6 @@ export default class MovieCard {
     this._movieCardComponent.setWatchlistClickHandler(this._handleWatchlistClick);
     this._movieCardComponent.setWatchedClickHandler(this._handleWatchedClick);
     this._movieCardComponent.setFavoriteClickHandler(this._handleFavoriteClick);
-    // this._movieCardComponent.setClickHandler(() => this._onFilmCardElementClick());
 
     if (prevMovieCardComponent === null) {
       render(this._movieCardContainer, this._movieCardComponent, RenderPosition.BEFOREEND);

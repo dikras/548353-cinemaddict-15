@@ -2,7 +2,7 @@ import FilterView from '../view/filter.js';
 import { render, RenderPosition, replace, remove } from '../utils/render.js';
 import { filterMovie } from '../utils/filter.js';
 import { FilterType, UpdateType } from '../const.js';
-import MovieListPresenter from './movie-list-presenter.js';
+import MovieListPresenter from './movie-list.js';
 
 export default class Filter {
   constructor(filterContainer, filterModel, moviesModel, handleNavigationClick) {
