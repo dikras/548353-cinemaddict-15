@@ -17,20 +17,38 @@ export default class Api {
       .then((movies) => movies.map(MoviesModel.adaptToClient));
   }
 
-  getComments(movieId) {
-    return this._load({url: `/comments/${movieId}`})
+  getComments(movie) {
+    return this._load({url: `/comments/${movie.id}`})
+      .then(Api.toJSON)
+      .then((comments) => comments.map(CommentsModel.adaptToClient));;
+  }
+
+  addComment(movie ,comment) {
+    return this._load({
+      url: `comments/${movie.id}`,
+      method: Method.POST,
+      body: JSON.stringify(CommentsModel.adaptToServer(comment)),
+      headers: new Headers({'Content-Type': 'application/json'}),
+    })
       .then(Api.toJSON);
+  }
+
+  removeComment(comment) {
+    return this._load({
+      url: `comments/${comment}`,
+      method: Method.DELETE,
+    });
   }
 
   updateMovie(movie) {
     return this._load({
-      url: `movies/${movie}`,
+      url: `movies/${movie.id}`,
       method: Method.PUT,
-      body: JSON.stringify(movie),
+      body: JSON.stringify(MoviesModel.adaptToServer(movie)),
       headers: new Headers({'Content-Type': 'application/json'}),
     })
       .then(Api.toJSON)
-      .then((movies) => movies.map(MoviesModel.adaptToServer));
+      .then(MoviesModel.adaptToClient);
   }
 
   _load({

@@ -39,6 +39,7 @@ export default class MovieCard {
 
   init(card) {
     this._card = card;
+    this._card.comments = this._commentsModel.getComments();
     const prevMovieCardComponent = this._movieCardComponent;
 
     this._movieCardComponent = new CardView(card);
@@ -94,9 +95,13 @@ export default class MovieCard {
     this._popupComponent.setCommentDeleteClickHandler(this._handleCommentDeleteClick);
     this._popupComponent.setCommentSubmitHandler(this._handleCommentSubmit);
 
-    api.getComments(this._card.id).then((comments) => {
-      this._commentsModel.setComments(comments);
+    api.getComments(this._card.id)
+    .then((comments) => (this._card.comments = comments))
+    .then((comments) => this._popupComponent.setComments(comments))
+    .catch(() => {
+      throw new Error (console.log('There are no comments'));
     });
+
 
     document.addEventListener('keydown', this._onEscKeydown);
     this._changeMode();

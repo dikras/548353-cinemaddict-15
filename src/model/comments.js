@@ -1,4 +1,5 @@
 import AbstractObserver from '../utils/abstract-observer.js';
+import dayjs from 'dayjs';
 
 export default class Comments extends AbstractObserver {
   constructor() {
@@ -36,5 +37,24 @@ export default class Comments extends AbstractObserver {
     ];
 
     this._notify(userAction);
+  }
+
+  static adaptToClient(comment) {
+    const adaptedComment = {
+      id: comment['id'],
+      author: comment['author'],
+      emote: comment['emotion'],
+      date: dayjs(comment.date),
+      message: comment['comment'],
+    };
+    return adaptedComment;
+  }
+
+  static adaptToServer(comment) {
+    const adaptedComment = {
+      comment: comment.comment,
+      emotion: comment.emotion,
+    };
+    return adaptedComment;
   }
 }

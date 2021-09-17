@@ -4,7 +4,6 @@ import duration from 'dayjs/plugin/duration';
 dayjs.extend(duration);
 import SmartView from './smart.js';
 import { keyEvent } from '../const.js';
-// import CommentsModel from '../model/comments.js';
 
 // import he from 'he';
 // <p class="film-details__comment-text">${he.encode(comment.text)}</p>
@@ -173,6 +172,13 @@ export default class Popup extends SmartView {
 
   getTemplate() {
     return createPopupTemplate(this._data);
+  }
+
+  setComments(comments) {
+    this.updateData({
+      comments: comments,
+      isComments: true,
+    });
   }
 
   restoreHandlers() {

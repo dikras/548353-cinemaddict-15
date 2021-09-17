@@ -3,8 +3,8 @@ import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 dayjs.extend(duration);
 
-const createFilmCardTemplate = (card) => {
-  const { movieInfo, userDetails, comments } = card;
+const createFilmCardTemplate = (movie) => {
+  const { movieInfo, userDetails, comments } = movie;
 
   const setCardControlsItemActive = (value) => value ? 'film-card__controls-item--active' : '';
 

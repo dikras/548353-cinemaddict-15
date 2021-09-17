@@ -13,7 +13,7 @@ import { filterMovie } from '../utils/filter.js';
 import MovieCardPresenter from './movie.js';
 
 export default class MovieList {
-  constructor(mainPageContainer, moviesModel, filterModel) {
+  constructor(mainPageContainer, moviesModel, filterModel, api) {
     this._moviesModel = moviesModel;
     this._filterModel = filterModel;
     this._mainPageContainer = mainPageContainer;
@@ -21,6 +21,7 @@ export default class MovieList {
     this._filterType = FilterType.ALL;
     this._currentSortType = SortType.DEFAULT;
     this._isLoading = true;
+    this._api = api;
 
     this._movieCardPresenter = new Map();
     this._filmsContainerComponent = new FilmsContainerView();
@@ -77,7 +78,10 @@ export default class MovieList {
   _handleViewAction(actionType, updateType, update) {
     switch (actionType) {
       case UserAction.UPDATE_CARD:
-        this._moviesModel.updateMovie(updateType, update);
+        this._api.updateMovie(update)
+          .then((response) => {
+            this._moviesModel.updateMovie(updateType, response);
+          });
         break;
       case UserAction.ADD_COMMENT:
         this._moviesModel.addComment(updateType, update);

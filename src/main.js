@@ -24,7 +24,7 @@ const filterModel = new FilterModel();
 
 render(headerElement, new UserStatusView(), RenderPosition.BEFOREEND);
 
-const movieListPresenter = new MovieListPresenter(siteMainElement, moviesModel, filterModel);
+const movieListPresenter = new MovieListPresenter(siteMainElement, moviesModel, filterModel, api);
 
 let statisticsComponent = null;
 
@@ -51,6 +51,7 @@ let moviesTotal;
 api.getMovies().then((movies) => {
   moviesModel.setMovies(UpdateType.INIT, movies);
   moviesTotal = moviesModel.getMovies();
+  console.log(moviesTotal)
   render(footerStatisticsElement, new FilmsCountView(moviesTotal.length), RenderPosition.BEFOREEND);
 })
   .catch(() => {
