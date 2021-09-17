@@ -96,11 +96,11 @@ export default class MovieCard {
     this._popupComponent.setCommentSubmitHandler(this._handleCommentSubmit);
 
     api.getComments(this._card.id)
-    .then((comments) => (this._card.comments = comments))
-    .then((comments) => this._popupComponent.setComments(comments))
-    .catch(() => {
-      throw new Error (console.log('There are no comments'));
-    });
+      .then((comments) => (this._card.comments = comments))
+      .then((comments) => this._popupComponent.setComments(comments))
+      .catch(() => {
+        throw new Error ('There are no comments');
+      });
 
 
     document.addEventListener('keydown', this._onEscKeydown);

@@ -62,7 +62,7 @@ export default class Movies extends AbstractObserver {
     const adaptedMovie = Object.assign(
       {},
       movie,
-      { 
+      {
         movieInfo:  {
           title: movie['film_info']['title'],
           alternativeTitle: movie['film_info']['alternative_title'],

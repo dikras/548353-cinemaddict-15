@@ -51,7 +51,6 @@ let moviesTotal;
 api.getMovies().then((movies) => {
   moviesModel.setMovies(UpdateType.INIT, movies);
   moviesTotal = moviesModel.getMovies();
-  console.log(moviesTotal)
   render(footerStatisticsElement, new FilmsCountView(moviesTotal.length), RenderPosition.BEFOREEND);
 })
   .catch(() => {
