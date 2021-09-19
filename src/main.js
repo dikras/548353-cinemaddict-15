@@ -22,8 +22,6 @@ const api = new Api(END_POINT, AUTHORIZATION);
 const moviesModel = new MoviesModel();
 const filterModel = new FilterModel();
 
-render(headerElement, new UserStatusView(), RenderPosition.BEFOREEND);
-
 const movieListPresenter = new MovieListPresenter(siteMainElement, moviesModel, filterModel, api);
 
 let statisticsComponent = null;
@@ -43,16 +41,18 @@ const handleNavigationClick = (menuItem) => {
 
 const filterPresenter = new FilterPresenter(siteMainElement, filterModel, moviesModel, handleNavigationClick);
 
+render(headerElement, new UserStatusView(), RenderPosition.BEFOREEND);
 filterPresenter.init();
 movieListPresenter.init();
 
-let moviesTotal;
+let totalMovies;
 
-api.getMovies().then((movies) => {
-  moviesModel.setMovies(UpdateType.INIT, movies);
-  moviesTotal = moviesModel.getMovies();
-  render(footerStatisticsElement, new FilmsCountView(moviesTotal.length), RenderPosition.BEFOREEND);
-})
+api.getMovies()
+  .then((movies) => {
+    moviesModel.setMovies(UpdateType.INIT, movies);
+    totalMovies = movies.length;
+    render(footerStatisticsElement, new FilmsCountView(totalMovies), RenderPosition.BEFOREEND);
+  })
   .catch(() => {
     moviesModel.setMovies(UpdateType.INIT, []);
   });

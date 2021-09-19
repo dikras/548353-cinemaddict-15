@@ -112,7 +112,7 @@ export default class Movies extends AbstractObserver {
           'writers': movie.movieInfo.writers,
           'actors': movie.movieInfo.actors,
           'release': {
-            'date': movie.movieInfo.release.date instanceof Date ? movie.movieInfo.release.date.toISOString() : null,
+            'date': movie.movieInfo.release.date,
             'release_country': movie.movieInfo.release.releaseCountry,
           },
           'description': movie.movieInfo.description,
@@ -120,7 +120,7 @@ export default class Movies extends AbstractObserver {
         'user_details': {
           'watchlist': movie.userDetails.watchlist,
           'already_watched': movie.userDetails.alreadyWatched,
-          'watching_date': movie.userDetails.watchingDate !== null ? movie.userDetails.watchingDate : new Date().toISOString(),
+          'watching_date': movie.userDetails.watchingDate,
           'favorite': movie.userDetails.favorite,
         },
       },

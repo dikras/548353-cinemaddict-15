@@ -20,11 +20,10 @@ export default class Api {
 
   getComments(movie) {
     return this._load({url: `/comments/${movie.id}`})
-      .then(Api.toJSON)
-      .then((comments) => comments.map(CommentsModel.adaptToClient));
+      .then(Api.toJSON);
   }
 
-  addComment(movie ,comment) {
+  addComment(movie, comment) {
     return this._load({
       url: `comments/${movie.id}`,
       method: Method.POST,
@@ -34,7 +33,7 @@ export default class Api {
       .then(Api.toJSON);
   }
 
-  removeComment(comment) {
+  deleteComment(comment) {
     return this._load({
       url: `comments/${comment}`,
       method: Method.DELETE,
