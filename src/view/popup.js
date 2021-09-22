@@ -275,9 +275,6 @@ export default class Popup extends SmartView {
   _watchlistPopupClickHandler(evt) {
     evt.preventDefault();
     const currentPosition = this.getElement().scrollTop;
-    this.updateData({
-      watchlist: this._data.userDetails.watchlist,
-    });
     this._callback.watchlistClick();
     this.getElement().scrollTo(0, currentPosition);
   }

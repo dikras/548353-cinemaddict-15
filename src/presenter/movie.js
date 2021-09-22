@@ -139,6 +139,11 @@ export default class MovieCard {
         this._card.userDetails.watchlist = !this._card.userDetails.watchlist,
       ),
     );
+    if (this._popupComponent !== null) {
+      this._popupComponent.updateData({
+        watchlist: this._card.userDetails.watchlist,
+      });
+    }
   }
 
   _handleWatchedClick() {
