@@ -93,8 +93,8 @@ export default class MovieList {
         break;
       case UserAction.DELETE_COMMENT:
         this._api.deleteComment(update)
-          .then((response) => {
-            this._commentsModel.deleteComment(updateType, response);
+          .then(() => {
+            this._commentsModel.deleteComment(updateType, update);
           });
         break;
     }
@@ -250,5 +250,16 @@ export default class MovieList {
     if (cardCount > this._renderedCardCount) {
       this._renderShowMoreButton();
     }
+  }
+
+  hideElement() {
+    this._filmsContainerComponent.hideElement();
+    this._sortingComponent.hideElement();
+  }
+
+  showElement() {
+    this._filmsContainerComponent.showElement();
+    this._sortingComponent.showElement();
+    this._handleSortTypeChange('default');
   }
 }

@@ -4,6 +4,8 @@ import CommentsModel from './model/comments.js';
 const Method = {
   GET: 'GET',
   PUT: 'PUT',
+  POST: 'POST',
+  DELETE: 'DELETE',
 };
 
 export default class Api {
@@ -33,9 +35,9 @@ export default class Api {
       .then(Api.toJSON);
   }
 
-  deleteComment(comment) {
+  deleteComment(commentId) {
     return this._load({
-      url: `comments/${comment}`,
+      url: `comments/${commentId}`,
       method: Method.DELETE,
     });
   }

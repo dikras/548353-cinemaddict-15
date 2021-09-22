@@ -27,15 +27,27 @@ const movieListPresenter = new MovieListPresenter(siteMainElement, moviesModel, 
 let statisticsComponent = null;
 
 const handleNavigationClick = (menuItem) => {
+  let count;
   switch (menuItem) {
     case FilterType.STATISTICS:
       movieListPresenter.destroy();
       statisticsComponent = new StatisticsView(moviesModel.getMovies());
       render(siteMainElement, statisticsComponent, RenderPosition.BEFOREEND);
       break;
-    default:
-      remove(statisticsComponent);
-      movieListPresenter.init();
+    case FilterType.ALL:
+    case FilterType.WATCHLIST:
+    case FilterType.HISTORY:
+    case FilterType.FAVORITES:
+      if (statisticsComponent !== null ) {
+        count = 0;
+        remove(statisticsComponent);
+      }
+      statisticsComponent = null;
+      if (count === 0) {
+        movieListPresenter.init();
+      }
+      count = count + 1;
+      break;
   }
 };
 

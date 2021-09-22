@@ -155,6 +155,7 @@ export default class Popup extends SmartView {
     this._data = Popup.parseCardToData(card);
     this._commentsModel = new CommentsModel();
     this._data.comments = this._commentsModel.getComments();
+    this._comments = this._data.comments;
 
     this._closePopupClickHandler = this._closePopupClickHandler.bind(this);
     this._watchlistPopupClickHandler = this._watchlistPopupClickHandler.bind(this);
@@ -274,17 +275,20 @@ export default class Popup extends SmartView {
   _watchlistPopupClickHandler(evt) {
     evt.preventDefault();
     const currentPosition = this.getElement().scrollTop;
-    this._callback.watchlistClick();
+
     this.updateData({
       watchlist: this._data.userDetails.watchlist,
     });
+    // this._data.comments = this._data.comments.map((comment) => comment.id),
+    // console.log(this._data.comments);
+    this._callback.watchlistClick(Popup.parseDataToCard(this._data));
     this.getElement().scrollTo(0, currentPosition);
   }
 
   _watchedPopupClickHandler(evt) {
     evt.preventDefault();
     const currentPosition = this.getElement().scrollTop;
-    this._callback.watchedClick();
+    this._callback.watchedClick(Popup.parseDataToCard(this.data));
     this.updateData({
       alreadyWatched: this._data.userDetails.alreadyWatched,
     });
