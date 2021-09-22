@@ -275,20 +275,17 @@ export default class Popup extends SmartView {
   _watchlistPopupClickHandler(evt) {
     evt.preventDefault();
     const currentPosition = this.getElement().scrollTop;
-
     this.updateData({
       watchlist: this._data.userDetails.watchlist,
     });
-    // this._data.comments = this._data.comments.map((comment) => comment.id),
-    // console.log(this._data.comments);
-    this._callback.watchlistClick(Popup.parseDataToCard(this._data));
+    this._callback.watchlistClick();
     this.getElement().scrollTo(0, currentPosition);
   }
 
   _watchedPopupClickHandler(evt) {
     evt.preventDefault();
     const currentPosition = this.getElement().scrollTop;
-    this._callback.watchedClick(Popup.parseDataToCard(this.data));
+    this._callback.watchedClick();
     this.updateData({
       alreadyWatched: this._data.userDetails.alreadyWatched,
     });

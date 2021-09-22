@@ -100,6 +100,8 @@ export default class Movies extends AbstractObserver {
       {},
       movie,
       {
+        'comments': movie.comments.every((comment) => typeof comment === 'string') ? movie.comments
+          : movie.comments.map((comment) => comment.id),
         'film_info': {
           'title': movie.movieInfo.title,
           'alternative_title': movie.movieInfo.alternativeTitle,
