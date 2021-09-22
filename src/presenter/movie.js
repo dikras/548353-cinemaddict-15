@@ -96,7 +96,6 @@ export default class MovieCard {
 
     api.getComments(this._card)
       .then((comments) => {
-        this._card.comments = comments;
         this._popupComponent.setComments(comments);
       })
       .catch(() => {
@@ -139,11 +138,8 @@ export default class MovieCard {
         this._card.userDetails.watchlist = !this._card.userDetails.watchlist,
       ),
     );
-    if (this._popupComponent !== null) {
-      this._popupComponent.updateData({
-        watchlist: this._card.userDetails.watchlist,
-      });
-    }
+    this._onClosePopupElementClick();
+    this.renderPopup();
   }
 
   _handleWatchedClick() {
@@ -156,6 +152,8 @@ export default class MovieCard {
         this._card.userDetails.alreadyWatched = !this._card.userDetails.alreadyWatched,
       ),
     );
+    this._onClosePopupElementClick();
+    this.renderPopup();
   }
 
   _handleFavoriteClick() {
@@ -168,6 +166,8 @@ export default class MovieCard {
         this._card.userDetails.favorite = !this._card.userDetails.favorite,
       ),
     );
+    this._onClosePopupElementClick();
+    this.renderPopup();
   }
 
   resetView() {
