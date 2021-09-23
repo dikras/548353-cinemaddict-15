@@ -1,9 +1,12 @@
 import { render, RenderPosition, remove, replace } from '../utils/render.js';
-import CardView from '../view/card-view.js';
-import PopupView from '../view/popup-view.js';
+import CardView from '../view/movie.js';
+import PopupView from '../view/popup.js';
 import { isEscEvent } from '../utils/common.js';
-import { UserAction, UpdateType } from '../const.js';
+import { UserAction, UpdateType, END_POINT, AUTHORIZATION } from '../const.js';
+import Api from '../api.js';
+import CommentsModel from '../model/comments.js';
 
+const api = new Api(END_POINT, AUTHORIZATION);
 const bodyElement = document.querySelector('body');
 
 const Mode = {
@@ -16,6 +19,7 @@ export default class MovieCard {
     this._movieCardContainer = movieCardContainer;
     this._changeData = changeData;
     this._changeMode = changeMode;
+    this._commentsModel = new CommentsModel();
 
     this._movieCardComponent = null;
     this._popupComponent = null;
@@ -43,7 +47,6 @@ export default class MovieCard {
     this._movieCardComponent.setWatchlistClickHandler(this._handleWatchlistClick);
     this._movieCardComponent.setWatchedClickHandler(this._handleWatchedClick);
     this._movieCardComponent.setFavoriteClickHandler(this._handleFavoriteClick);
-    // this._movieCardComponent.setClickHandler(() => this._onFilmCardElementClick());
 
     if (prevMovieCardComponent === null) {
       render(this._movieCardContainer, this._movieCardComponent, RenderPosition.BEFOREEND);
@@ -91,6 +94,14 @@ export default class MovieCard {
     this._popupComponent.setCommentDeleteClickHandler(this._handleCommentDeleteClick);
     this._popupComponent.setCommentSubmitHandler(this._handleCommentSubmit);
 
+    api.getComments(this._card)
+      .then((comments) => {
+        this._popupComponent.setComments(comments);
+      })
+      .catch(() => {
+        throw new Error('Can\'t load comments');
+      });
+
     document.addEventListener('keydown', this._onEscKeydown);
     this._changeMode();
     this._mode = Mode.OPENING;
@@ -127,6 +138,8 @@ export default class MovieCard {
         this._card.userDetails.watchlist = !this._card.userDetails.watchlist,
       ),
     );
+    this._onClosePopupElementClick();
+    this.renderPopup();
   }
 
   _handleWatchedClick() {
@@ -139,6 +152,8 @@ export default class MovieCard {
         this._card.userDetails.alreadyWatched = !this._card.userDetails.alreadyWatched,
       ),
     );
+    this._onClosePopupElementClick();
+    this.renderPopup();
   }
 
   _handleFavoriteClick() {
@@ -151,6 +166,8 @@ export default class MovieCard {
         this._card.userDetails.favorite = !this._card.userDetails.favorite,
       ),
     );
+    this._onClosePopupElementClick();
+    this.renderPopup();
   }
 
   resetView() {

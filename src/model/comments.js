@@ -37,4 +37,20 @@ export default class Comments extends AbstractObserver {
 
     this._notify(userAction);
   }
+
+  static adaptToClient(comment) {
+    const adaptedComment = Object.assign(
+      {},
+      comment,
+    );
+    return adaptedComment;
+  }
+
+  static adaptToServer(comment) {
+    const adaptedComment = Object.assign(
+      {},
+      comment,
+    );
+    return adaptedComment;
+  }
 }

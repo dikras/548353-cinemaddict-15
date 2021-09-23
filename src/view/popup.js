@@ -1,9 +1,9 @@
 import dayjs from 'dayjs';
-import {nanoid} from 'nanoid';
 import duration from 'dayjs/plugin/duration';
 dayjs.extend(duration);
 import SmartView from './smart.js';
 import { keyEvent } from '../const.js';
+import CommentsModel from '../model/comments.js';
 import he from 'he';
 
 const createCommentsListTemplate = (comments, isComments) => (isComments) ? (`
@@ -13,7 +13,7 @@ const createCommentsListTemplate = (comments, isComments) => (isComments) ? (`
         <img src="./images/emoji/${comment.emotion}.png" width="55" height="55" alt="emoji-smile">
       </span>
       <div>
-        <p class="film-details__comment-text">${he.encode(comment.text)}</p>
+      <p class="film-details__comment-text">${he.encode(comment.comment)}</p>
         <p class="film-details__comment-info">
           <span class="film-details__comment-author">${comment.author}</span>
           <span class="film-details__comment-day">${dayjs(comment.date).format('YYYY/MM/DD HH:MM')}</span>
@@ -98,9 +98,9 @@ const createPopupTemplate = (card) => {
                 <td class="film-details__cell">${movieInfo.release.releaseCountry}</td>
               </tr>
               <tr class="film-details__row">
-                <td class="film-details__term">Genre${movieInfo.genres.length > 1 ? 's' : ''}</td>
+                <td class="film-details__term">Genre${movieInfo.genre.length > 1 ? 's' : ''}</td>
                 <td class="film-details__cell">
-                  <span class="film-details__genre">${generateGenre(movieInfo.genres)}</span>
+                  <span class="film-details__genre">${generateGenre(movieInfo.genre)}</span>
                 </td>
               </tr>
             </table>
@@ -153,6 +153,8 @@ export default class Popup extends SmartView {
   constructor(card) {
     super();
     this._data = Popup.parseCardToData(card);
+    this._commentsModel = new CommentsModel();
+    this._data.comments = this._commentsModel.getComments();
     this._comments = this._data.comments;
 
     this._closePopupClickHandler = this._closePopupClickHandler.bind(this);
@@ -170,6 +172,13 @@ export default class Popup extends SmartView {
 
   getTemplate() {
     return createPopupTemplate(this._data);
+  }
+
+  setComments(comments) {
+    this.updateData({
+      comments: comments,
+      isComments: true,
+    });
   }
 
   restoreHandlers() {
@@ -221,10 +230,7 @@ export default class Popup extends SmartView {
   _commentSubmitHandler(evt) {
     if (evt.ctrlKey && evt.key === keyEvent.ENTER) {
       const userComment = {
-        id: nanoid(),
-        author: 'Dmitry Krasyukov',
-        text: this.getElement().querySelector('.film-details__comment-input').value,
-        date: '13 november',
+        comment: this.getElement().querySelector('.film-details__comment-input').value,
         emotion: this._data.emojiType,
       };
 
@@ -268,32 +274,17 @@ export default class Popup extends SmartView {
 
   _watchlistPopupClickHandler(evt) {
     evt.preventDefault();
-    const currentPosition = this.getElement().scrollTop;
     this._callback.watchlistClick();
-    this.updateData({
-      watchlist: this._data.userDetails.watchlist,
-    });
-    this.getElement().scrollTo(0, currentPosition);
   }
 
   _watchedPopupClickHandler(evt) {
     evt.preventDefault();
-    const currentPosition = this.getElement().scrollTop;
     this._callback.watchedClick();
-    this.updateData({
-      alreadyWatched: this._data.userDetails.alreadyWatched,
-    });
-    this.getElement().scrollTo(0, currentPosition);
   }
 
   _favoritePopupClickHandler(evt) {
     evt.preventDefault();
-    const currentPosition = this.getElement().scrollTop;
     this._callback.favoriteClick();
-    this.updateData({
-      favorite: this._data.userDetails.favorite,
-    });
-    this.getElement().scrollTo(0, currentPosition);
   }
 
   setClosePopupClickHandler(callback) {

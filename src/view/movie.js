@@ -3,8 +3,8 @@ import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 dayjs.extend(duration);
 
-const createFilmCardTemplate = (card) => {
-  const { movieInfo, userDetails, comments } = card;
+const createFilmCardTemplate = (movie) => {
+  const { comments, movieInfo, userDetails } = movie;
 
   const setCardControlsItemActive = (value) => value ? 'film-card__controls-item--active' : '';
 
@@ -21,7 +21,7 @@ const createFilmCardTemplate = (card) => {
       <span class="film-card__year">${dayjs(movieInfo.release.date).format('YYYY')}</span>
       <span class="film-card__duration">${dayjs.duration(movieInfo.runtime, 'minutes').
     format('H')}h ${dayjs.duration(movieInfo.runtime, 'minutes').format('mm')}m</span>
-      <span class="film-card__genre">${movieInfo.genres.join(' ')}</span>
+      <span class="film-card__genre">${movieInfo.genre.join(' ')}</span>
     </p>
     <img src="${movieInfo.poster}" alt="" class="film-card__poster">
     <p class="film-card__description">${movieInfo.description}</p>

@@ -1,29 +1,35 @@
-import SortingView from '../view/sorting-view.js';
+import SortingView from '../view/sorting.js';
 import FilmsContainerView from '../view/films-container.js';
 import FilmsListView from '../view/films-list.js';
 import FilmsListContainerView from '../view/films-list-container.js';
 import ShowMoreButtonView from '../view/show-more-button.js';
 import NoFilmView from '../view/no-film.js';
+import LoadingView from '../view/loading.js';
 import { render, RenderPosition, remove } from '../utils/render.js';
 import { CardCount } from '../const.js';
 import { sortFilmByRating, sortFilmByDate } from '../utils/card-utils.js';
 import { SortType, UserAction, UpdateType, FilterType } from '../const.js';
 import { filterMovie } from '../utils/filter.js';
-import MovieCardPresenter from './movie-card-presenter.js';
+import MovieCardPresenter from './movie.js';
+import CommentsModel from '../model/comments.js';
 
 export default class MovieList {
-  constructor(mainPageContainer, moviesModel, filterModel) {
+  constructor(mainPageContainer, moviesModel, filterModel, api) {
     this._moviesModel = moviesModel;
     this._filterModel = filterModel;
     this._mainPageContainer = mainPageContainer;
     this._renderedCardCount = CardCount.PER_STEP;
-    this._movieCardPresenter = new Map();
     this._filterType = FilterType.ALL;
     this._currentSortType = SortType.DEFAULT;
+    this._isLoading = true;
+    this._api = api;
 
+    this._movieCardPresenter = new Map();
     this._filmsContainerComponent = new FilmsContainerView();
     this._filmsListComponent = new FilmsListView();
     this._filmsListContainerComponent = new FilmsListContainerView();
+    this._loadingComponent = new LoadingView();
+    this._commentsModel = new CommentsModel();
 
     this._noFilmComponent = null;
     this._sortingComponent = null;
@@ -74,13 +80,22 @@ export default class MovieList {
   _handleViewAction(actionType, updateType, update) {
     switch (actionType) {
       case UserAction.UPDATE_CARD:
-        this._moviesModel.updateMovie(updateType, update);
+        this._api.updateMovie(update)
+          .then((response) => {
+            this._moviesModel.updateMovie(updateType, response);
+          });
         break;
       case UserAction.ADD_COMMENT:
-        this._moviesModel.addComment(updateType, update);
+        this._api.addComment(update)
+          .then((response) => {
+            this._commentsModel.addComment(updateType, response);
+          });
         break;
       case UserAction.DELETE_COMMENT:
-        this._moviesModel.deleteComment(updateType, update);
+        this._api.deleteComment(update)
+          .then(() => {
+            this._commentsModel.deleteComment(updateType, update);
+          });
         break;
     }
   }
@@ -95,6 +110,11 @@ export default class MovieList {
         break;
       case UpdateType.MAJOR:
         this._clearList({resetRenderedCardCount: true, resetSortType: true});
+        this._renderList();
+        break;
+      case UpdateType.INIT:
+        this._isLoading = false;
+        remove(this._loadingComponent);
         this._renderList();
         break;
     }
@@ -140,6 +160,10 @@ export default class MovieList {
 
   _renderCards(containerComponent, cards) {
     cards.forEach((filmCard) => this._renderCard(containerComponent, filmCard));
+  }
+
+  _renderLoading() {
+    render(this._mainPageContainer, this._loadingComponent, RenderPosition.BEFOREEND);
   }
 
   _renderNoFilms() {
@@ -204,6 +228,11 @@ export default class MovieList {
   }
 
   _renderList() {
+    if (this._isLoading) {
+      this._renderLoading();
+      return;
+    }
+
     const cards = this._getMovies();
     const cardCount = cards.length;
 
@@ -221,5 +250,16 @@ export default class MovieList {
     if (cardCount > this._renderedCardCount) {
       this._renderShowMoreButton();
     }
+  }
+
+  hideElement() {
+    this._filmsContainerComponent.hideElement();
+    this._sortingComponent.hideElement();
+  }
+
+  showElement() {
+    this._filmsContainerComponent.showElement();
+    this._sortingComponent.showElement();
+    this._handleSortTypeChange('default');
   }
 }

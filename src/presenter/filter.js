@@ -2,7 +2,7 @@ import FilterView from '../view/filter.js';
 import { render, RenderPosition, replace, remove } from '../utils/render.js';
 import { filterMovie } from '../utils/filter.js';
 import { FilterType, UpdateType } from '../const.js';
-import MovieListPresenter from './movie-list-presenter.js';
+import MovieListPresenter from './movie-list.js';
 
 export default class Filter {
   constructor(filterContainer, filterModel, moviesModel, handleNavigationClick) {
@@ -27,8 +27,8 @@ export default class Filter {
     const prevFilterComponent = this._filterComponent;
 
     this._filterComponent = new FilterView(filters, this._filterModel.getFilter());
-    this._filterComponent.setFilterTypeChangeHandler(this._handleFilterTypeChange);
     this._filterComponent.setNavigationClickHandler(this._handleNavigationClick);
+    this._filterComponent.setFilterTypeChangeHandler(this._handleFilterTypeChange);
 
     if (prevFilterComponent === null) {
       render(this._filterContainer, this._filterComponent, RenderPosition.AFTERBEGIN);

@@ -49,7 +49,7 @@ export const getDuration = (movies, type) => {
   return dayjs.duration(totalDuration, 'm').minutes();
 };
 
-export const getGenres = (movies) => movies.reduce((genre, movie) => [...genre, ...movie.movieInfo.genres], []);
+export const getGenres = (movies) => movies.reduce((genre, movie) => [...genre, ...movie.movieInfo.genre], []);
 
 export const getCountGenres = (genres) => genres.reduce( (total, genre) => {
   total[genre] = (total[genre] || 0) + 1 ;
